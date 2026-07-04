@@ -331,8 +331,8 @@ RUNTEQ卒業制作アプリ（第二案）
 
 ### 10-1. 使用予定の技術
 
-- 言語：Ruby 3.3.6
-- フレームワーク：Ruby on Rails 7.2.2.1
+- 言語：Ruby 4.0.5
+- フレームワーク：Ruby on Rails 8.1
 - DB：PostgreSQL
 - デプロイ先：Render
 - 使用予定ライブラリ：
