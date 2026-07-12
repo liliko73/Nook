@@ -380,3 +380,5 @@ RUNTEQ卒業制作アプリ（第二案）
 	- コミュニティサービスでは投稿内容の管理やバリデーションも考慮する必要があること
 	- 本リリースで予定している検索機能や画像投稿機能を、開発期間内に完成させられるか
 
+### 画面遷移図
+Figma：<https://www.figma.com/design/UNkCD62qgXWW37z3NmrNV1/%E7%84%A1%E9%A1%8C?node-id=0-1&p=f&t=j4SoKfndhcsj6aLp-0>
