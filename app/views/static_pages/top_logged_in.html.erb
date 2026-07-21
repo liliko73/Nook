@@ -1,0 +1,47 @@
+<div class="top-logged-in-container">
+  <!-- ロゴ -->
+  <header class="logo">
+    <h1>ロゴ</h1>
+  </header>
+
+  <!-- Loungeエリア（今週のテーマ） -->
+  <section class="lounge-section">
+    <h2>Loungeロゴ</h2>
+    <p>今週のトークテーマ</p>
+    
+    <!-- Lounge詳細ページ（テーマ詳細）へのリンク -->
+    <div class="theme-card">
+      <%= link_to 'テーマタイトル', '#', class: 'theme-title-link' %>
+    </div>
+
+  <%# MVPリリース時はテーマ募集機能を非表示 %>
+  <div>
+    <%# link_to 'テーマ募集中！', '#', class: 'btn-theme-recruit' %>
+  </div>
+  
+  </section>
+
+  <!-- Askエリア（最新の質問） -->
+  <section class="ask-section">
+    <h2>Askロゴ</h2>
+    
+    <!-- 最新の質問リスト -->
+    <div class="question-list">
+      <ul>
+        <li><%= link_to '質問タイトル1', '#' %></li>
+        <li><%= link_to '質問タイトル2', '#' %></li>
+        <li><%= link_to '質問タイトル3', '#' %></li>
+      </ul>
+    </div>
+
+    <!-- Ask一覧ページへのリンク -->
+    <div>
+      <%= link_to '質問一覧を見る', '#', class: 'btn-ask-index' %>
+    </div>
+  </section>
+
+  <!-- MyPageへのリンク -->
+  <footer class="mypage-section">
+    <%= link_to 'Mypage', '#', class: 'btn-mypage' %>
+  </footer>
+</div>
