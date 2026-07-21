@@ -7,6 +7,6 @@ class StaticPagesController < ApplicationController
     #   render :top_before_login
     # end
 
-    render :top_logged_in
+    render :top_before_login
   end
 end
