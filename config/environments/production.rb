@@ -59,19 +59,14 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   # メール送信でエラーが発生した場合にエラーを投げる
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
 
   # 本番環境のURLを設定
   config.action_mailer.default_url_options = { host: 'nook-84pk.onrender.com', protocol: 'https' }
 
-  # ResendのSMTP設定
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.resend.com',
-    port:                 587,
-    user_name:            'resend',
-    password:             ENV['RESEND_API_KEY'],
-    authentication:       :plain,
-    enable_starttls_auto: true
+  # SMTPではなくResend APIを使用する設定に変更
+  config.action_mailer.delivery_method = :resend
+  config.action_mailer.resend_settings = {
+    api_key: ENV['RESEND_API_KEY']
   }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
