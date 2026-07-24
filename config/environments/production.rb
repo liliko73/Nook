@@ -67,11 +67,11 @@ Rails.application.configure do
   # ResendのSMTP設定
   config.action_mailer.smtp_settings = {
     address:              'smtp.resend.com',
-    port:                 465,
+    port:                 587,
     user_name:            'resend',
     password:             ENV['RESEND_API_KEY'],
     authentication:       :plain,
-    ssl:                  true
+    enable_starttls_auto: true
   }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
