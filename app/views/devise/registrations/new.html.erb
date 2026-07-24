@@ -1,0 +1,185 @@
+<h2>ユーザー登録</h2>
+
+<div class="user-avatar-default" style="width: 80px; height: 80px; border-radius: 50%; background-color: #E2E8F0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+  <svg style="width: 48px; height: 48px; color: #94A3B8;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+  </svg>
+</div>
+
+<%= form_for(resource, as: resource_name, url: users_sign_up_confirm_path, method: :post) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <!-- メールアドレス -->
+  <div class="field">
+    <%= f.label :email, "メールアドレス" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <!-- パスワード -->
+  <div class="field">
+    <%= f.label :password, "パスワード" %>
+    <% if @minimum_password_length %>
+      <span>(<%= @minimum_password_length %> 文字以上)</span>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <!-- パスワード（確認用） -->
+  <div class="field">
+    <%= f.label :password_confirmation, "パスワード（確認用）" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <!-- ニックネーム -->
+  <div class="field">
+    <%= f.label :username, "ニックネーム" %><br />
+    <%= f.text_field :username %>
+  </div>
+
+  <!-- ひとこと -->
+  <div class="field">
+    <%= f.label :self_introduction, "ひとこと" %><br />
+    <%= f.text_area :self_introduction %>
+  </div>
+
+  <!-- あなたの生年月日 -->
+  <div class="field">
+    <%= f.label :birthday_year, "あなたの生年月日" %><br />
+    <%= f.number_field :birthday_year, placeholder: "年 (例: 1990)" %> 年
+    <%= f.number_field :birthday_month, placeholder: "月", in: 1..12 %> 月
+    <%= f.number_field :birthday_date, placeholder: "日", in: 1..31 %> 日
+  </div>
+
+  <!-- あなたの性別 -->
+  <div class="field">
+    <%= f.label :gender, "あなたの性別" %><br />
+    <%= f.select :gender, [["男性", "male"], ["女性", "female"], ["その他", "other"]], include_blank: "選択してください" %>
+  </div>
+
+<!-- 1人目のお子様情報 -->
+  <%= f.fields_for :children, resource.children.first || resource.children.build do |c| %>
+    <div class="child-field">
+      <div class="field">
+        <%= c.label :birthday_year, "お子様の生年月日" %><br />
+        <%= c.number_field :birthday_year, placeholder: "年" %> 年
+        <%= c.number_field :birthday_month, placeholder: "月", in: 1..12 %> 月
+        <%= c.number_field :birthday_date, placeholder: "日", in: 1..31 %> 日
+      </div>
+
+      <div class="field">
+        <%= c.label :gender, "お子様の性別" %><br />
+        <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], include_blank: "選択してください" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- 2人目のお子様情報 -->
+  <%# 2人目のデータ（生年月日や性別）が存在する場合は最初から表示、なければ非表示 %>
+  <% has_child_2 = resource.children[1].present? && (resource.children[1].birthday_year.present? || resource.children[1].gender.present?) %>
+  <div id="child-field-2" class="extra-child-field" style="<%= has_child_2 ? '' : 'display: none;' %> margin-top: 15px;">
+    <%= f.fields_for :children, resource.children[1] || resource.children.build do |c| %>
+      <div class="child-field">
+        <div class="field">
+          <%= c.label :birthday_year, "お子様の生年月日（2人目）" %><br />
+          <%= c.number_field :birthday_year, placeholder: "年" %> 年
+          <%= c.number_field :birthday_month, placeholder: "月", in: 1..12 %> 月
+          <%= c.number_field :birthday_date, placeholder: "日", in: 1..31 %> 日
+        </div>
+
+        <div class="field">
+          <%= c.label :gender, "お子様の性別（2人目）" %><br />
+          <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], include_blank: "選択してください" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 3人目のお子様情報 -->
+  <% has_child_3 = resource.children[2].present? && (resource.children[2].birthday_year.present? || resource.children[2].gender.present?) %>
+  <div id="child-field-3" class="extra-child-field" style="<%= has_child_3 ? '' : 'display: none;' %> margin-top: 15px;">
+    <%= f.fields_for :children, resource.children[2] || resource.children.build do |c| %>
+      <div class="child-field">
+        <div class="field">
+          <%= c.label :birthday_year, "お子様の生年月日（3人目）" %><br />
+          <%= c.number_field :birthday_year, placeholder: "年" %> 年
+          <%= c.number_field :birthday_month, placeholder: "月", in: 1..12 %> 月
+          <%= c.number_field :birthday_date, placeholder: "日", in: 1..31 %> 日
+        </div>
+
+        <div class="field">
+          <%= c.label :gender, "お子様の性別（3人目）" %><br />
+          <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], include_blank: "選択してください" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 4人目のお子様情報 -->
+  <% has_child_4 = resource.children[3].present? && (resource.children[3].birthday_year.present? || resource.children[3].gender.present?) %>
+  <div id="child-field-4" class="extra-child-field" style="<%= has_child_4 ? '' : 'display: none;' %> margin-top: 15px;">
+    <%= f.fields_for :children, resource.children[3] || resource.children.build do |c| %>
+      <div class="child-field">
+        <div class="field">
+          <%= c.label :birthday_year, "お子様の生年月日（4人目）" %><br />
+          <%= c.number_field :birthday_year, placeholder: "年" %> 年
+          <%= c.number_field :birthday_month, placeholder: "月", in: 1..12 %> 月
+          <%= c.number_field :birthday_date, placeholder: "日", in: 1..31 %> 日
+        </div>
+
+        <div class="field">
+          <%= c.label :gender, "お子様の性別（4人目）" %><br />
+          <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], include_blank: "選択してください" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- お子様追加ボタン（4人全て表示済みの場合は初期非表示） -->
+  <% initial_count = [1, (has_child_2 ? 2 : 1), (has_child_3 ? 3 : 1), (has_child_4 ? 4 : 1)].max %>
+  <div style="margin: 15px 0;">
+    <button type="button" id="add-child-btn" onclick="addChildForm()" style="<%= initial_count >= 4 ? 'display: none;' : '' %>">
+      登録するお子様を追加
+    </button>
+  </div>
+
+  <!-- JavaScriptによる順次追加処理 -->
+  <script>
+    // 画面読み込み時の初期表示人数をセット（入力済みの人数に合わせる）
+    let currentChildCount = <%= initial_count %>;
+
+    function addChildForm() {
+      if (currentChildCount < 4) {
+        currentChildCount++;
+        const nextField = document.getElementById("child-field-" + currentChildCount);
+        if (nextField) {
+          nextField.style.display = "block";
+        }
+      }
+
+      // 4人目まで表示されたらボタンを隠す
+      if (currentChildCount >= 4) {
+        const addChildBtn = document.getElementById("add-child-btn");
+        if (addChildBtn) {
+          addChildBtn.style.display = "none";
+        }
+      }
+    }
+  </script>
+  
+<!-- 居住地（任意） -->
+<div class="field">
+  <%= f.label :prefecture, "居住地（任意）" %><br />
+  <%= f.select :prefecture, User::PREFECTURES, include_blank: "選択してください" %>
+</div>
+
+  <br />
+  <div class="actions">
+    <%= f.submit "入力内容の確認" %>
+  </div>
+<% end %>
+
+<%# 
+  Login画面へのリンク（Deviceの共通パーツとして自動挿入される）
+  render "devise/shared/links" 
+%>
+

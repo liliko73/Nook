@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
+
+  # Deviseのregistrationsコントローラーに独自アクションを追加
+  devise_scope :user do
+    post 'users/sign_up/confirm', to: 'users/registrations#new_confirm'
+    get  'users/sign_up/complete', to: 'users/registrations#new_complete', as: :users_sign_up_complete
+  end
+
   root "static_pages#top"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

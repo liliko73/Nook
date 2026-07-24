@@ -1,0 +1,98 @@
+<h2>ユーザー登録</h2>
+
+<p>
+  以下の内容で登録します。修正したい箇所があれば、下の戻るボタンから戻ってください。<br>
+  問題なければ仮登録メール送信を押してください。
+</p>
+
+<!-- アイコン画像ダミーエリア -->
+<div class="user-avatar-default" style="width: 80px; height: 80px; border-radius: 50%; background-color: #E2E8F0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+  <svg style="width: 48px; height: 48px; color: #94A3B8;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+  </svg>
+</div>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), method: :post) do |f| %>
+
+  <div class="confirm-group">
+    <div class="field">
+      <strong>メールアドレス</strong>
+      <p><%= resource.email %></p>
+      <%= f.hidden_field :email %>
+    </div>
+
+    <div class="field">
+      <strong>パスワード</strong>
+      <small style="color: #666;">（プライバシー保護のため表示していません）</small>
+      <p>※※※※※※※※</p>
+      <%= f.hidden_field :password %>
+      <%= f.hidden_field :password_confirmation %>
+    </div>
+
+    <div class="field">
+      <strong>ニックネーム</strong>
+      <p><%= resource.username %></p>
+      <%= f.hidden_field :username %>
+    </div>
+
+    <div class="field">
+      <strong>ひとこと</strong>
+      <p><%= resource.self_introduction %></p>
+      <%= f.hidden_field :self_introduction %>
+    </div>
+
+    <div class="field">
+      <strong>あなたの生年月日</strong>
+      <p><%= "#{resource.birthday_year}年#{resource.birthday_month}月#{resource.birthday_date}日" %></p>
+      <%= f.hidden_field :birthday_year %>
+      <%= f.hidden_field :birthday_month %>
+      <%= f.hidden_field :birthday_date %>
+    </div>
+
+    <div class="field">
+      <strong>あなたの性別</strong>
+      <p><%= resource.gender %></p>
+      <%= f.hidden_field :gender %>
+    </div>
+
+    <!-- お子様情報（入力された人数分だけループして動的に表示） -->
+    <% resource.children.each_with_index do |child, index| %>
+      <%# 生年月日や性別の入力があるお子様だけを表示 %>
+      <% if child.birthday_year.present? || child.gender.present? %>
+        <%= f.fields_for :children, child do |c| %>
+          <% suffix = index > 0 ? "（#{index + 1}人目）" : "" %>
+
+          <div class="field">
+            <strong>お子様の生年月日<%= suffix %></strong>
+            <p><%= "#{child.birthday_year}年#{child.birthday_month}月#{child.birthday_date}日" %></p>
+            <%= c.hidden_field :birthday_year %>
+            <%= c.hidden_field :birthday_month %>
+            <%= c.hidden_field :birthday_date %>
+          </div>
+        
+
+          <div class="field">
+            <strong>お子様の性別<%= suffix %></strong>
+            <p><%= child.gender %></p>
+            <%= c.hidden_field :gender %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+
+  <div class="field">
+    <strong>居住地（任意）</strong>
+    <p><%= resource.prefecture %></p>
+    <%= f.hidden_field :prefecture %>
+  </div>
+</div>
+
+<div class="actions" style="margin-top: 20px;">
+  <!-- 戻るボタン（入力画面へ） -->
+  <button type="submit" name="back" value="true">戻る</button>
+  <br><br>
+  <!-- 仮登録メール送信ボタン -->
+  <%= f.submit "仮登録メールを送信する" %>
+</div>
+
+<% end %>
