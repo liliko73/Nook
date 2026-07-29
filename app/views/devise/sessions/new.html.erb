@@ -1,5 +1,12 @@
 <%= render "shared/flash_message" %>
 
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+</header>
+
 <h2>ログイン</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>

@@ -17,7 +17,7 @@ class User < ApplicationRecord
   validates :birthday_month, presence: true
   validates :birthday_date, presence: true
   validates :gender, presence: true
-  
+
   # ひとこと
   validates :self_introduction, presence: true, length: { maximum: 200 }
 
@@ -31,5 +31,4 @@ class User < ApplicationRecord
     徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県
     熊本県 大分県 宮崎県 鹿児島県 沖縄県
   ].freeze
-
 end

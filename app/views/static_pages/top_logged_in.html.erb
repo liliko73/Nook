@@ -1,9 +1,18 @@
-<div class="top-logged-in-container">
-  <!-- ロゴ -->
-  <header class="logo">
-    <h1>ロゴ</h1>
-  </header>
+<%= render "shared/flash_message" %>
 
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="top-logged-in-container">
   <!-- Loungeエリア（今週のテーマ） -->
   <section class="lounge-section">
     <h2>Loungeロゴ</h2>
