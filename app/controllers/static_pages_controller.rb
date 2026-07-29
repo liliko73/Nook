@@ -1,12 +1,14 @@
 class StaticPagesController < ApplicationController
-  def top
-    # ログイン機能実装後は以下のように切り替える：
-    # if logged_in?
-    #   render :top_logged_in
-    # else
-    #   render :top_before_login
-    # end
 
-    render :top_before_login
+  skip_before_action :authenticate_user!, only: [:top]
+
+  def top
+    if user_signed_in?
+      # ログイン済みの場合は top_logged_in.html.erb を表示
+      render :top_logged_in
+    else
+      # 未ログインの場合は top_before_login.html.erb を表示
+      render :top_before_login
+    end
   end
 end
