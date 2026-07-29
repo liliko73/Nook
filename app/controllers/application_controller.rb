@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
       :birthday_date,
       :gender,
       :prefecture,
-      children_attributes: [:id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy]
+      children_attributes: [ :id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy ]
     ])
 
     # アカウント更新時にも許可する
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       :birthday_date,
       :gender,
       :prefecture,
-      children_attributes: [:id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy]
+      children_attributes: [ :id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy ]
     ])
   end
 end

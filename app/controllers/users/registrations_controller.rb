@@ -30,13 +30,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # 確認画面で「戻る」ボタンが押された場合の処理
     if params[:back].present?
       self.resource = build_resource(sign_up_params)
-      
+
       # もし何らかの理由でお子様が空になっている場合は最低1人分を担保
       resource.children.build if resource.children.empty?
-      
+
       # 入力画面に戻す（※ status: :unprocessable_entity または :ok）
       render :new, status: :ok
-      return    
+      return
     end
 
     # 入力パラメータからUser（およびChild）オブジェクトを作成
@@ -97,7 +97,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :username, :self_introduction,
       :birthday_year, :birthday_month, :birthday_date,
       :gender, :prefecture,
-      children_attributes: [:id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy]
+      children_attributes: [ :id, :birthday_year, :birthday_month, :birthday_date, :gender, :_destroy ]
     ])
   end
 
