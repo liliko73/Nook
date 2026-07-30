@@ -6,9 +6,9 @@ class User < ApplicationRecord
          :confirmable
 
   # お子様との1対多の関係を設定
-  has_many :children, dependent: :destroy
+  has_many :children, dependent: :destroy, validate: true
   # フォームから子供の情報も同時に受け取れるようにする
-  accepts_nested_attributes_for :children, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :children, allow_destroy: true
   # 性別のenum
   enum :gender, { male: 0, female: 1, other: 2 }
 
