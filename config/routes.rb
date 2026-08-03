@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "themes/show"
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
@@ -10,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   root "static_pages#top"
+
+  # テーマ詳細表示用
+  resources :themes, only: [ :show ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
