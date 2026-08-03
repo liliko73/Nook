@@ -20,7 +20,11 @@
     
     <!-- Lounge詳細ページ（テーマ詳細）へのリンク -->
     <div class="theme-card">
-      <%= link_to 'テーマタイトル', '#', class: 'theme-title-link' %>
+      <% if @theme %>
+        <%= link_to @theme.title, theme_path(@theme), class: "font-bold text-lg text-gray-800 hover:underline" %>
+      <% else %>
+        <p class="text-gray-500">現在表示できるテーマはありません</p>
+      <% end %>
     </div>
 
   <%# MVPリリース時はテーマ募集機能を非表示 %>

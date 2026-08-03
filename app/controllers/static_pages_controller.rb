@@ -3,6 +3,8 @@ class StaticPagesController < ApplicationController
 
   def top
     if user_signed_in?
+      # 最新のテーマを1件取得（シードデータ等の最初のデータ）
+      @theme = Theme.first
       # ログイン済みの場合は top_logged_in.html.erb を表示
       render :top_logged_in
     else

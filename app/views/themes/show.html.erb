@@ -1,0 +1,46 @@
+<%= render "shared/flash_message" %>
+
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="container mx-auto px-4 py-6 max-w-2xl">
+  <!-- 1. テーマ表示エリア -->
+  <section class="theme-section mb-6">
+    <h2 class="text-xs font-bold text-gray-500 mb-1">今週のトークテーマ</h2>
+    <h1 class="text-2xl font-bold text-gray-900 mb-3"><%= @theme.title %></h1>
+    <p class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed"><%= @theme.body %></p>
+  </section>
+
+  <!-- 2. コメント入力欄（次のIssue #9で実装するため見た目のみのダミーで配置） -->
+  <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6">
+    <div class="mb-3">
+      <textarea rows="3" placeholder="あなたはどうしてる？" class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none" disabled></textarea>
+    </div>
+    <div class="text-right">
+      <button class="bg-amber-300 text-white font-bold text-xs px-5 py-2 rounded-full cursor-not-allowed" disabled>コメントする</button>
+    </div>
+  </div>
+
+  <!-- 3. コメント一覧エリア -->
+  <div class="space-y-4">
+    <h2 class="text-base font-bold text-gray-800">みんなのコメント</h2>
+    <% if @comments.any? %>
+      <% @comments.each do |comment| %>
+        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+          <p class="text-sm text-gray-800"><%= comment.body %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p>まだコメントはありません。最初のコメントを投稿してみましょう！</p>
+    <% end %>
+  </div>
+</div>
