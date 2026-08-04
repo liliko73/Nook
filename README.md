@@ -357,6 +357,9 @@ RUNTEQ卒業制作アプリ（第二案）
 	- CarrierWave（画像アップロード）
 	- MiniMagick（画像リサイズ）
 	- Kaminari（ページネーション）
+	- rails-i18n（日本語化）
+    - devise-i18n（日本語化）
+
 
 
 ---
