@@ -7,11 +7,11 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to theme_path(@theme), notice: 'コメントを投稿しました。'
+      redirect_to theme_path(@theme), notice: "コメントを投稿しました。"
     else
       @comments = @theme.comments.includes(:user).order(created_at: :desc)
-      flash.now[:alert] = 'コメントの投稿に失敗しました。'
-      render 'themes/show', status: :unprocessable_entity
+      flash.now[:alert] = "コメントの投稿に失敗しました。"
+      render "themes/show", status: :unprocessable_entity
     end
   end
 

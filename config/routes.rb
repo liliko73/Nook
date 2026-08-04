@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   # テーマ詳細表示用
   resources :themes, only: [ :index, :show ] do
-    resources :comments, only: [:create]
+    resources :comments, only: [ :create ]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
