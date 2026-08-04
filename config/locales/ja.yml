@@ -1,0 +1,43 @@
+ja:
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      short: "%Y/%m/%d %H:%M"
+
+  activerecord:
+    models:
+      user: "ユーザー"
+      child: "お子様"
+      comment: "コメント"
+    attributes:
+      user:
+        username: "ユーザー名"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認用）"
+        birthday_year: "あなたの生年月日（年）"
+        birthday_month: "あなたの生年月日（月）"
+        birthday_date: "あなたの生年月日（日）"
+        gender: "あなたの性別"
+        self_introduction: "ひとこと"
+        prefecture: "居住地"
+      child:
+        birthday_year: "お子様の生年月日（年）"
+        birthday_month: "お子様の生年月日（月）"
+        birthday_date: "お子様の生年月日（日）"
+        gender: "お子様の性別"
+      children:
+        birthday_year: "お子様の生年月日（年）"
+        birthday_month: "お子様の生年月日（月）"
+        birthday_date: "お子様の生年月日（日）"
+        gender: "お子様の性別"
+      comment:
+        body: "コメント本文"
+
+  errors:
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに存在します"
+      too_long: "は%{count}文字以内で入力してください"
+      invalid: "は不正な値です"
+      

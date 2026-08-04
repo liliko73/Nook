@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_02_062838) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_04_015231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_02_062838) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_children_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.integer "parent_id"
+    t.bigint "theme_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
+    t.index ["theme_id"], name: "index_comments_on_theme_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "themes", force: :cascade do |t|
@@ -57,4 +69,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_02_062838) do
   end
 
   add_foreign_key "children", "users"
+  add_foreign_key "comments", "themes"
+  add_foreign_key "comments", "users"
 end

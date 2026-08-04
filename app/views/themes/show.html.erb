@@ -20,23 +20,31 @@
     <p class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed"><%= @theme.body %></p>
   </section>
 
-  <!-- 2. コメント入力欄（次のIssue #9で実装するため見た目のみのダミーで配置） -->
-  <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6">
-    <div class="mb-3">
-      <textarea rows="3" placeholder="あなたはどうしてる？" class="w-full p-3 border border-gray-200 rounded-lg text-sm focus:outline-none" disabled></textarea>
-    </div>
-    <div class="text-right">
-      <button class="bg-amber-300 text-white font-bold text-xs px-5 py-2 rounded-full cursor-not-allowed" disabled>コメントする</button>
-    </div>
+  <!-- 2. コメント投稿フォーム -->
+  <div class="comment-form">
+    <%= form_with(model: [@theme, @comment], local: true) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="field">
+        <%= f.text_area :body, placeholder: "あなたはどうしてる？", rows: 3 %>
+      </div>
+      <%= f.submit "コメントする" %>
+    <% end %>
   </div>
 
-  <!-- 3. コメント一覧エリア -->
-  <div class="space-y-4">
-    <h2 class="text-base font-bold text-gray-800">みんなのコメント</h2>
-    <% if @comments.any? %>
+  <!-- 3. コメント一覧表示 -->
+  <div class="comments-list">
+    <h3>みんなのコメント</h3>
+    <% if @comments.present? %>
       <% @comments.each do |comment| %>
-        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-          <p class="text-sm text-gray-800"><%= comment.body %></p>
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="user-name"><%= comment.user.username %></span>
+            <!-- 投稿日時の表示 (lメソッドでフォーマット整形) -->
+            <span class="created-at"><%= l comment.created_at, format: :short %></span>
+          </div>
+          <div class="comment-body">
+            <%= simple_format(h(comment.body)) %>
+          </div>
         </div>
       <% end %>
     <% else %>
