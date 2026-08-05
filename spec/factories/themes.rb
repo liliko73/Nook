@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :theme do
-    title { "MyString" }
-    body { "MyText" }
+    title { "今週のトークテーマ" }
+    body { "テーマの詳細テキストです。" }
   end
 end

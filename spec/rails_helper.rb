@@ -2,9 +2,9 @@
 
 require 'simplecov'
 SimpleCov.start 'rails' do
-  add_filter '/bin/'
-  add_filter '/db/'
-  add_filter '/spec/'
+  skip '/bin/'
+  skip '/db/'
+  skip '/spec/'
 end
 
 require 'spec_helper'
@@ -77,4 +77,6 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  # Deviseのヘルパーメソッド（sign_inなど）をrequest specで有効化
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
