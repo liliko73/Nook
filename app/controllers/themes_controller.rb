@@ -1,8 +1,8 @@
 class ThemesController < ApplicationController
   def show
     @theme = Theme.find(params[:id])
+    # parent_id: nil で親コメントのみ取得し、N+1問題防止のために replies も include します
+    @comments = @theme.comments.where(parent_id: nil).includes(:user, replies: :user).order(created_at: :desc)
     @comment = Comment.new
-    # N+1問題を防止するため includes(:user) を付与
-    @comments = @theme.comments.includes(:user).order(created_at: :asc)
   end
 end
