@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :children, dependent: :destroy, validate: true
   # コメントとの1対多の関係を設定
   has_many :comments, dependent: :destroy
+  # 質問との1対多の関係を設定
+  has_many :questions, dependent: :destroy
 
   # フォームから子供の情報も同時に受け取れるようにする
   accepts_nested_attributes_for :children, allow_destroy: true, reject_if: :all_blank

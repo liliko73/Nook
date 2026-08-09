@@ -9,6 +9,7 @@ ja:
       user: "ユーザー"
       child: "お子様"
       comment: "コメント"
+      question: "質問"
     attributes:
       user:
         username: "ユーザー名"
@@ -33,6 +34,9 @@ ja:
         gender: "お子様の性別"
       comment:
         body: "コメント本文"
+      question:
+        title: "タイトル"
+        body: "本文"
 
   errors:
     messages:
