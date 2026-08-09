@@ -1,0 +1,43 @@
+<%= render "shared/flash_message" %>
+
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+  <h1 class="text-2xl font-bold mb-6 text-center">質問を投稿する</h1>
+
+  <%= form_with model: @question, local: true do |f| %>
+    <% if @question.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <ul class="list-disc pl-5">
+          <% @question.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= f.label :title, "タイトル", class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.text_field :title, class: "w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500", placeholder: "例：離乳食の進め方について" %>
+    </div>
+
+    <div class="mb-6">
+      <%= f.label :body, "本文", class: "block text-gray-700 font-bold mb-2" %>
+      <%= f.text_area :body, rows: 6, class: "w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500", placeholder: "質問の具体的な内容を書いてください" %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "投稿する", class: "bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-6 rounded-full cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
