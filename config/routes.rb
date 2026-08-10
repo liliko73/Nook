@@ -13,12 +13,13 @@ Rails.application.routes.draw do
   root "static_pages#top"
 
   # テーマ詳細表示用
-  resources :themes, only: [ :index, :show ] do
-    resources :comments, only: [ :create ]
+  resources :themes, only: %i[ index show ] do
+    resources :comments, only: %i[ create ]
   end
 
-  # 質問機能用
-  resources :questions, only: [ :new, :create ]
+  # 質問機能用（新規作成・保存・一覧・詳細）
+  resources :questions, only: %i[ index show new create ]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

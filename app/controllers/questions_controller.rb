@@ -1,6 +1,20 @@
 class QuestionsController < ApplicationController
     before_action :authenticate_user!
 
+  def index
+    if params[:tab] == "mine"
+      # 「あなたのAsk」: ログイン中のユーザーが投稿した質問のみを取得（新しい順）
+      @questions = current_user.questions.order(created_at: :desc)
+    else
+      # 「みんなのAsk」: 全ての質問を取得（新しい順）
+      @questions = Question.order(created_at: :desc)
+    end
+  end
+  
+  def show
+    @question = Question.find(params[:id])
+  end
+
   def new
     @question = Question.new
   end
