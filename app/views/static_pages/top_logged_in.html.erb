@@ -37,19 +37,26 @@
   <!-- Askエリア（最新の質問） -->
   <section class="ask-section">
     <h2>Askロゴ</h2>
+    <p>新しく投稿された質問</p>
     
     <!-- 最新の質問リスト -->
     <div class="question-list">
       <ul>
-        <li><%= link_to '質問タイトル1', '#' %></li>
-        <li><%= link_to '質問タイトル2', '#' %></li>
-        <li><%= link_to '質問タイトル3', '#' %></li>
+        <% if @questions.present? %>
+          <% @questions.each do |question| %>
+            <li>
+              <%= link_to question.title, question_path(question), class: "text-blue-600 hover:underline" %>
+            </li>
+          <% end %>
+        <% else %>
+          <li class="text-gray-500">投稿された質問はありません。</li>
+        <% end %>
       </ul>
     </div>
 
     <!-- Ask一覧ページへのリンク -->
     <div>
-      <%= link_to '質問一覧を見る', '#', class: 'btn-ask-index' %>
+      <%= link_to '質問一覧を見る', questions_path, class: 'btn-ask-index' %>
     </div>
   </section>
 
