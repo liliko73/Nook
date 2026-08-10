@@ -1,0 +1,30 @@
+<%= render "shared/flash_message" %>
+
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="container mx-auto px-4 py-6 max-w-2xl">
+  <div class="mb-4">
+    <%= link_to '一覧に戻る', questions_path, class: "text-sm text-gray-500 hover:underline" %>
+  </div>
+
+  <div class="bg-white p-6 rounded-lg shadow-sm border">
+    <div class="flex justify-between items-center mb-4 border-b pb-3">
+      <h1 class="text-xl font-bold text-gray-800"><%= @question.title %></h1>
+      <span class="text-xs text-gray-400"><%= l(@question.created_at, format: :short) %></span>
+    </div>
+
+    <div class="text-gray-700 whitespace-pre-wrap">
+      <%= @question.body %>
+    </div>
+  </div>
+</div>
