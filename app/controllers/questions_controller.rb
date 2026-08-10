@@ -10,7 +10,7 @@ class QuestionsController < ApplicationController
       @questions = Question.order(created_at: :desc)
     end
   end
-  
+
   def show
     @question = Question.find(params[:id])
   end
