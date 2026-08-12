@@ -37,6 +37,8 @@ ja:
       question:
         title: "タイトル"
         body: "本文"
+      answer:
+        body: "回答"
 
   errors:
     messages:
