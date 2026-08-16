@@ -12,7 +12,7 @@
 user = User.find_or_create_by!(email: 'test1@example.com') do |u|
   u.password = 'password'
   u.password_confirmation = 'password'
-  
+
   # ユーザー情報
   u.username = '名無しの１'
   u.self_introduction = 'よろしくお願いします😊'
