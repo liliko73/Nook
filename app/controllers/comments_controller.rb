@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user! # Devise等のログイン要求処理
-  before_action :set_comment, only: [:destroy]
+  before_action :set_comment, only: [ :destroy ]
 
   def create
     @theme = Theme.find(params[:theme_id])
@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to theme_path(theme), notice: 'コメントを削除しました' }
+      format.html { redirect_to theme_path(theme), notice: "コメントを削除しました" }
     end
   end
 
