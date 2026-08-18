@@ -36,11 +36,19 @@
     <h3>みんなのコメント</h3>
     <% if @comments.present? %>
       <% @comments.each do |comment| %>
-        <div class="comment-item border-b py-4">
+        <div id="<%= dom_id(comment) %>" class="comment-item border-b py-4">
           <%# --- 親コメントの表示 --- %>
           <div class="comment-header">
             <span class="user-name"><%= comment.user.username %></span>
             <span class="created-at"><%= l comment.created_at, format: :short %></span>
+
+            <%# 削除ボタン（親コメント用） %>
+            <% if comment.user == current_user %>
+              <%= button_to '削除', theme_comment_path(@theme, comment),
+                    method: :delete,
+                    onclick: "return confirm('本当に削除しますか？');",
+                    class: 'text-red-500 hover:text-red-700 ml-2 text-sm bg-transparent border-0 p-0 cursor-pointer inline' %>
+            <% end %>
           </div>
           <div class="comment-body">
             <%= simple_format(h(comment.body)) %>
@@ -58,10 +66,20 @@
               <%# 1. 返信が存在する場合のみ一覧を表示（ない場合は何も表示しない） %>
               <% if comment.replies.present? %>
                 <% comment.replies.each do |reply| %>
-                  <div class="reply-item my-2 p-2 bg-gray-50 rounded">
-                    <div class="reply-header text-xs text-gray-600">
-                      <span class="font-bold"><%= reply.user.username %></span>
-                      <span><%= l reply.created_at, format: :short %></span>
+                  <div id="<%= dom_id(reply) %>" class="reply-item my-2 p-2 bg-gray-50 rounded">
+                    <div class="reply-header text-xs text-gray-600 flex items-center justify-between">
+                      <div>
+                        <span class="font-bold"><%= reply.user.username %></span>
+                        <span><%= l reply.created_at, format: :short %></span>
+                      </div>
+
+                      <%# 削除ボタン（返信コメント用） %>
+                      <% if reply.user == current_user %>
+                        <%= button_to '削除', theme_comment_path(@theme, reply),
+                              method: :delete,
+                              onclick: "return confirm('本当に削除しますか？');",
+                              class: 'text-red-500 hover:text-red-700 ml-2 text-sm bg-transparent border-0 p-0 cursor-pointer inline' %>
+                      <% end %>
                     </div>
                     <div class="reply-body text-sm mt-1">
                       <%= simple_format(h(reply.body)) %>
