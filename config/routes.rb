@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   # 質問機能用（新規作成・保存・一覧・詳細・回答）
   resources :questions, only: %i[ index show new create edit update destroy ] do
-    resources :answers, only: %i[ create ], shallow: true
+    resources :answers, only: %i[ create destroy ], shallow: true
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
