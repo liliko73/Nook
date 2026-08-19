@@ -25,6 +25,13 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    @answer = current_user.answers.find(params[:id])
+    question = @answer.question
+    @answer.destroy!
+    redirect_to question_path(question), notice: "回答を削除しました。"
+  end
+
   private
 
   def answer_params
