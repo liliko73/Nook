@@ -1,0 +1,26 @@
+<%= render "shared/flash_message" %>
+
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="max-w-md mx-auto my-8 p-4">
+  <h1 class="text-2xl font-bold text-center mb-6">Mypage</h1>
+
+  <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+    <ul class="divide-y divide-gray-200">
+      <li>
+        <%# ユーザー情報（閲覧）ページへ遷移 %>
+        <%= link_to 'ユーザー情報', profile_path, class: "block px-4 py-3 hover:bg-gray-50 text-gray-700 font-medium" %>
+      </li>
+    </ul>
+  </div>
+</div>
