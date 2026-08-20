@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     resources :answers, only: %i[ create destroy ], shallow: true
   end
 
+  # マイページトップ
+  resource :mypage, only: %i[ show ]
+
   # マイページ・プロフィール編集用
   resource :profile, only: %i[ show edit update ]
 
