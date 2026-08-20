@@ -56,6 +56,12 @@
     <%= f.select :gender, [["男性", "male"], ["女性", "female"], ["その他", "other"]], include_blank: "選択してください" %>
   </div>
 
+  <!-- 居住地（任意） -->
+  <div class="field">
+    <%= f.label :prefecture, "居住地（任意）" %><br />
+    <%= f.select :prefecture, User::PREFECTURES, include_blank: "選択してください" %>
+  </div>
+
 <!-- 1人目のお子様情報 -->
   <%= f.fields_for :children, resource.children.first || resource.children.build do |c| %>
     <div class="child-field">
@@ -165,12 +171,6 @@
       }
     }
   </script>
-  
-<!-- 居住地（任意） -->
-<div class="field">
-  <%= f.label :prefecture, "居住地（任意）" %><br />
-  <%= f.select :prefecture, User::PREFECTURES, include_blank: "選択してください" %>
-</div>
 
   <br />
   <div class="actions">
