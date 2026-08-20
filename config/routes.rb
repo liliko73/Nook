@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "profiles/show"
+  get "profiles/edit"
+  get "profiles/update"
   get "themes/show"
   devise_for :users, controllers: {
     registrations: "users/registrations"
@@ -21,6 +24,9 @@ Rails.application.routes.draw do
   resources :questions, only: %i[ index show new create edit update destroy ] do
     resources :answers, only: %i[ create destroy ], shallow: true
   end
+
+  # マイページ・プロフィール編集用
+  resource :profile, only: %i[ show edit update ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,0 +1,83 @@
+<%= render "shared/flash_message" %>
+
+<header>
+  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
+  <div class="logo">
+    <%= link_to 'ロゴ', root_path %>
+  </div>
+
+  <!-- ナビゲーション（ログアウトボタン） -->
+  <nav>
+    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  </nav>
+</header>
+
+<div class="container mx-auto px-4 py-8 max-w-lg">
+  <h1 class="text-2xl font-bold mb-6 text-center">ユーザー情報編集</h1>
+
+  <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
+    <% if @user.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul class="list-disc pl-5">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="space-y-4">
+      <div>
+        <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.email_field :email, value: @user.email, disabled: true, class: "mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm" %>
+        <p class="text-xs text-gray-500 mt-1">※メールアドレスの変更はできません</p>
+      </div>
+
+      <div>
+        <%= f.label :username, "ニックネーム", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :username, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div>
+        <%= f.label :self_introduction, "ひとこと", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :self_introduction, rows: 3, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div>
+        <!-- 全体の見出しラベル -->
+        <label class="block text-sm font-medium text-gray-700 mb-1">あなたの生年月日</label>
+        
+        <!-- 年・月・日 を3列で並べるグリッド -->
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <%= f.label :birthday_year, "年", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :birthday_year, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <div>
+            <%= f.label :birthday_month, "月", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :birthday_month, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <div>
+            <%= f.label :birthday_date, "日", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :birthday_date, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :gender, "あなたの性別", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :gender, User.genders.keys.map { |k| [I18n.t("enums.user.gender.#{k}", default: k.titleize), k] }, {}, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div>
+        <%= f.label :prefecture, "居住地（任意）", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :prefecture, User::PREFECTURES, { include_blank: "選択してください" }, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div class="pt-4 flex space-x-4">
+        <%= link_to "キャンセル", profile_path, class: "w-1/2 text-center py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+        <%= f.submit "更新する", class: "w-1/2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+      </div>
+    </div>
+  <% end %>
+</div>
