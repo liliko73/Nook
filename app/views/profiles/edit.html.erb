@@ -74,6 +74,93 @@
         <%= f.select :prefecture, User::PREFECTURES, { include_blank: "選択してください" }, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
       </div>
 
+      <!-- お子様情報セクション -->
+      <div class="border-t pt-4 mt-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-3">お子様の情報</h2>
+
+        <%# 登録済み、または入力済みの人数を初期表示カウントとする %>
+        <% initial_count = @user.children.select { |c| c.persisted? || c.birthday_year.present? || c.gender.present? }.size %>
+        <% initial_count = [initial_count, 1].max %>
+
+        <%= f.fields_for :children do |child_f| %>
+          <% index = child_f.index %>
+          <% is_visible = index < initial_count %>
+
+          <div id="child-field-<%= index + 1 %>" 
+               class="bg-gray-50 p-4 rounded-md border border-gray-200 mb-4 space-y-3"
+               style="<%= is_visible ? '' : 'display: none;' %>">
+            
+            <label class="block text-sm font-semibold text-gray-700">
+              お子様 <%= index + 1 %>
+            </label>
+
+            <!-- 生年月日 (年・月・日) -->
+            <div>
+              <label class="block text-xs font-medium text-gray-600 mb-1">生年月日</label>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <%= child_f.label :birthday_year, "年", class: "block text-xs text-gray-500" %>
+                  <%= child_f.number_field :birthday_year, placeholder: "年", class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+                </div>
+                <div>
+                  <%= child_f.label :birthday_month, "月", class: "block text-xs text-gray-500" %>
+                  <%= child_f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+                </div>
+                <div>
+                  <%= child_f.label :birthday_date, "日", class: "block text-xs text-gray-500" %>
+                  <%= child_f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- 性別 -->
+            <div>
+              <%= child_f.label :gender, "性別", class: "block text-xs font-medium text-gray-600" %>
+              <%= child_f.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+            </div>
+
+            <!-- 既存のデータ（DB保存済み）かつ複数人存在する場合のみ削除チェックボックスを表示 -->
+            <% if child_f.object.persisted? && @user.children.select(&:persisted?).size > 1 %>
+              <div class="flex items-center mt-2 pt-2 border-t border-gray-200">
+                <%= child_f.check_box :_destroy, class: "h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded" %>
+                <%= child_f.label :_destroy, "このお子様情報を削除する", class: "ml-2 text-xs font-medium text-red-600" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- お子様追加ボタン -->
+        <div class="mb-4">
+          <button type="button" id="add-child-btn" onclick="addChildForm()" 
+                  class="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 shadow-sm"
+                  style="<%= initial_count >= 4 ? 'display: none;' : '' %>">
+            ＋ 登録するお子様を追加
+          </button>
+        </div>
+      </div>
+
+      <!-- JavaScriptによる追加処理 -->
+      <script>
+        let currentChildCount = <%= initial_count %>;
+
+        function addChildForm() {
+          if (currentChildCount < 4) {
+            currentChildCount++;
+            const nextField = document.getElementById("child-field-" + currentChildCount);
+            if (nextField) {
+              nextField.style.display = "block";
+            }
+          }
+
+          if (currentChildCount >= 4) {
+            const addChildBtn = document.getElementById("add-child-btn");
+            if (addChildBtn) {
+              addChildBtn.style.display = "none";
+            }
+          }
+        }
+      </script>
+
       <div class="pt-4 flex space-x-4">
         <%= link_to "キャンセル", profile_path, class: "w-1/2 text-center py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50" %>
         <%= f.submit "更新する", class: "w-1/2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
