@@ -8,3 +8,29 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+ @import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-app-main: #efe4cc;      /* Pale Butter */
+    --color-app-card: #dec08e;      /* 淡いベージュ */
+    --color-app-primary: #904719;   /* Rustic Cocoa */
+    --color-app-secondary: #05435f; /* Antique Blue */
+    --color-app-dark: #090a04;      /* Moss Shadow */
+  }
+}
+
+/* カスタムカラー用ユーティリティクラス */
+.bg-app-main { background-color: var(--color-app-main); }
+.bg-app-card { background-color: var(--color-app-card); }
+.bg-app-primary { background-color: var(--color-app-primary); }
+.bg-app-secondary { background-color: var(--color-app-secondary); }
+
+.text-app-main { color: var(--color-app-main); }
+.text-app-primary { color: var(--color-app-primary); }
+.text-app-secondary { color: var(--color-app-secondary); }
+.text-app-dark { color: var(--color-app-dark); }
+
+.border-app-card { border-color: var(--color-app-card); }
+.border-app-primary { border-color: var(--color-app-primary); }
