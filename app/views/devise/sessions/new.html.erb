@@ -1,41 +1,44 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
-  </div>
-</header>
+<div class="min-h-screen flex flex-col justify-center items-center py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-md border border-gray-100">
 
-<h2>ログイン</h2>
+    <!-- タイトル -->
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">ログイン</h2>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <!-- メールアドレス -->
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
-  </div>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-  <!-- パスワード -->
-  <div class="field">
-    <%= f.label :password, "パスワード" %>
-    <p><%= f.password_field :password, autocomplete: "current-password", class: "form-input" %>
-  </div>
+      <!-- メールアドレス -->
+      <div class="field">
+        <%= f.label :email, "メールアドレス", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-800" %>
+      </div>
 
-  <!-- ログインボタン -->
-  <div class="actions">
-    <%= f.submit "ログイン", class: "btn btn-primary" %>
-  </div>
-<% end %>
+      <!-- パスワード -->
+      <div class="field">
+        <%= f.label :password, "パスワード", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-gray-800" %>
+      </div>
 
-  <!-- ユーザー登録ボタン（画面移動） -->
-  <div class="actions">
-    <%= link_to "ユーザー登録", new_registration_path(resource_name), class: "btn btn-secondary" %>
-  </div>
+      <!-- ログインボタン -->
+      <div class="pt-4">
+        <%= f.submit "ログイン", class: "w-full py-3 px-4 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl shadow-md transition duration-150 cursor-pointer text-center block" %>
+      </div>
+
+      <!-- ユーザー登録ボタン -->
+      <div class="mt-4">
+        <%= link_to "ユーザー登録", new_registration_path(resource_name), class: "w-full py-3 px-4 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl shadow-md transition duration-150 cursor-pointer text-center block no-underline" %>
+      </div>
+
+    <% end %>
 
     <%# MVPリリース後に実装 %>
     <%# link_to "パスワードをお忘れの方", new_password_path(resource_name), class: "btn btn-secondary" %>
+  
   </div>
 </div>
 
 <%# render "devise/shared/links" %>
+
