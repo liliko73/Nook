@@ -1,31 +1,34 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
-  </div>
+<div class="container mx-auto px-4 py-6 max-w-md space-y-10">
 
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
-<div class="top-logged-in-container">
   <!-- Loungeエリア（今週のテーマ） -->
-  <section class="lounge-section">
-    <h2>Loungeロゴ</h2>
-    <p>今週のトークテーマ</p>
+  <section class="space-y-3">
+    <!-- ロゴ & 見出し -->
+    <div class="text-center space-y-1">
+      <div class="flex justify-center">
+        <%= render 'shared/lounge_logo', height: 64, text_color: '#904719' %>
+      </div>
+      <p class="text-xs text-app-dark/70 font-bold">今週のトークテーマ</p>
+    </div>
     
-    <!-- Lounge詳細ページ（テーマ詳細）へのリンク -->
-    <div class="theme-card">
+    <!-- テーマタイトルカード -->
+    <div class="bg-white/90 rounded-2xl p-5 text-center shadow-sm border border-app-card/60">
       <% if @theme %>
-        <%= link_to @theme.title, theme_path(@theme), class: "font-bold text-lg text-gray-800 hover:underline" %>
+        <h3 class="text-base font-bold text-app-dark leading-snug">
+          <%= @theme.title %>
+        </h3>
       <% else %>
-        <p class="text-gray-500">現在表示できるテーマはありません</p>
+        <p class="text-xs text-app-dark/60">現在表示できるテーマはありません</p>
       <% end %>
     </div>
+
+    <!-- Lounge詳細（コメント一覧）へ進むボタン -->
+    <% if @theme %>
+      <%= link_to theme_path(@theme), class: "block w-full text-center py-2.5 px-4 bg-app-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition shadow-sm no-underline" do %>
+        みんなのコメントを見る・投稿する
+      <% end %>
+    <% end %>
 
   <%# MVPリリース時はテーマ募集機能を非表示 %>
   <div>
@@ -35,33 +38,45 @@
   </section>
 
   <!-- Askエリア（最新の質問） -->
-  <section class="ask-section">
-    <h2>Askロゴ</h2>
-    <p>新しく投稿された質問</p>
+  <section class="space-y-3">
+    <!-- ロゴ（中央揃え） -->
+    <div class="text-center space-y-1">
+      <div class="flex justify-center">
+        <%= render 'shared/ask_logo', height: 60, text_color: '#904719' %>
+      </div>
+      <p class="text-xs text-app-dark/70 font-medium">最新の質問（3件）</p>
+    </div>
     
     <!-- 最新の質問リスト -->
-    <div class="question-list">
-      <ul>
-        <% if @questions.present? %>
-          <% @questions.each do |question| %>
-            <li>
-              <%= link_to question.title, question_path(question), class: "text-blue-600 hover:underline" %>
-            </li>
+    <div class="bg-white/90 rounded-2xl p-3 shadow-sm border border-app-card/60 space-y-2"">
+      <% if @questions.present? %>
+        <% @questions.each do |question| %>
+          <%= link_to question_path(question), class: "group flex items-center justify-between p-3.5 rounded-xl bg-app-main/30 hover:bg-app-main/60 transition duration-150 no-underline text-left" do %>
+            <p class="text-sm font-bold text-app-dark line-clamp-1 pr-2 group-hover:text-app-primary transition-colors">
+              <%= question.title %>
+            </p>
+            <!-- 右矢印アイコン -->
+            <svg class="w-4 h-4 text-app-dark/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
           <% end %>
-        <% else %>
-          <li class="text-gray-500">投稿された質問はありません。</li>
         <% end %>
-      </ul>
+      <% else %>
+        <p class="text-xs text-app-dark/60 text-center py-3">投稿された質問はありません。</p>
+      <% end %>
     </div>
 
     <!-- Ask一覧ページへのリンク -->
-    <div>
-      <%= link_to '質問一覧を見る', questions_path, class: 'btn-ask-index' %>
-    </div>
+    <%= link_to questions_path, class: "block w-full text-center py-3 px-4 bg-app-primary text-white text-xs font-bold rounded-xl hover:opacity-90 transition shadow-sm no-underline" do %>
+      質問一覧を見る
+    <% end %>
   </section>
 
   <!-- MyPageへのリンク -->
-  <footer class="mypage-section">
-    <%= link_to 'Mypage', mypage_path, class: 'btn-mypage' %>
-  </footer>
+  <div class="pt-2">
+    <%= link_to mypage_path, class: "block w-full text-center py-3.5 px-4 bg-white/70 text-app-dark text-xs font-bold rounded-xl border border-app-card hover:bg-white transition no-underline shadow-sm" do %>
+      Mypage
+    <% end %>
+  </div>
+
 </div>

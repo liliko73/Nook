@@ -1,108 +1,151 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
+<div class="container mx-auto px-4 py-8 max-w-md space-y-6">
+
+  <!-- Loungeロゴ -->
+  <div class="flex justify-center">
+    <%= render 'shared/lounge_logo', height: 60, text_color: '#904719' %>
   </div>
 
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
-<div class="container mx-auto px-4 py-6 max-w-2xl">
-  <!-- 1. テーマ表示エリア -->
-  <section class="theme-section mb-6">
-    <h2 class="text-xs font-bold text-gray-500 mb-1">今週のトークテーマ</h2>
-    <h1 class="text-2xl font-bold text-gray-900 mb-3"><%= @theme.title %></h1>
-    <p class="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed"><%= @theme.body %></p>
+  <!-- テーマ表示エリア -->
+  <section class="space-y-2">
+    <p class="text-xs text-app-dark/70 font-midium text-center">今週のトークテーマ</p>
+    <div class="bg-white/90 rounded-2xl p-5 shadow-sm border border-app-card/60 space-y-3">
+      <h1 class="text-base font-bold text-app-dark text-center leading-snug">    
+        <%= @theme.title %>
+      </h1>
+      <div class="border-t border-app-card/40 pt-2.5">
+        <p class="text-xs text-app-dark/80 leading-relaxed whitespace-pre-wrap"><%= @theme.body %></p>
+      </div>
+    </div>
   </section>
 
-  <!-- 2. コメント投稿フォーム -->
-  <div class="comment-form">
-    <%= form_with(model: [@theme, @comment], local: true) do |f| %>
+  <!-- コメント投稿フォーム -->
+  <div class="bg-white/90 rounded-2xl p-3.5 shadow-sm border border-app-card/60">
+    <%= form_with(model: [@theme, @comment], local: true, class: "space-y-2.5") do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
-      <div class="field">
-        <%= f.text_area :body, placeholder: "あなたはどうしてる？", rows: 3 %>
-      </div>
-      <%= f.submit "コメントする" %>
+
+      <div class="flex gap-2.5">
+        <!-- 人型アイコン -->
+        <div class="w-8 h-8 rounded-full bg-gray-200 shrink-0 flex items-center justify-center text-gray-400 mt-0.5">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </div>
+
+        <!-- 入力エリア -->
+        <div class="flex-1 space-y-2">
+          <%= f.text_area :body, rows: 2, placeholder: "あなたはどうしてる？（コメントを入力）", class: "w-full p-2.5 bg-app-main/40 rounded-xl text-xs text-app-dark placeholder-app-dark/50 border border-app-card/80 focus:outline-none focus:ring-app-primary focus:bg-white resize-none shadow-inner" %>
+          <div class="flex justify-end">
+            <%= f.submit "コメントする", class: "px-4 py-1.5 bg-app-primary text-white text-xs font-bold rounded-xl active:opacity-90 transition shadow-sm cursor-pointer border-0" %>
+          </div>
+        </div>
+      </div>   
     <% end %>
   </div>
 
-  <!-- 3. コメント一覧表示 -->
-  <div class="comments-list">
+  <!-- コメント一覧表示 -->
+  <div class="space-y-2.5">
     <h3>みんなのコメント</h3>
     <% if @comments.present? %>
       <% @comments.each do |comment| %>
-        <div id="<%= dom_id(comment) %>" class="comment-item border-b py-4">
-          <%# --- 親コメントの表示 --- %>
-          <div class="comment-header">
-            <span class="user-name"><%= comment.user.username %></span>
-            <span class="created-at"><%= l comment.created_at, format: :short %></span>
+        <div id="<%= dom_id(comment) %>" class="bg-white/90 rounded-2xl p-3 shadow-sm border border-app-card/60 space-y-1.5">
 
-            <%# 削除ボタン（親コメント用） %>
-            <% if comment.user == current_user %>
-              <%= button_to '削除', theme_comment_path(@theme, comment),
-                    method: :delete,
-                    onclick: "return confirm('本当に削除しますか？');",
-                    class: 'text-red-500 hover:text-red-700 ml-2 text-sm bg-transparent border-0 p-0 cursor-pointer inline' %>
-            <% end %>
+          <%# --- 親コメントの表示 --- %>
+          <div class="flex gap-2.5">
+
+            <!-- 人型アイコン -->
+            <div class="w-7 h-7 rounded-full bg-gray-200 shrink-0 flex items-center justify-center text-gray-400">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+
+            <!-- コメント内容 -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between mb-0.5">
+                <span class="text-xs font-bold text-app-dark truncate"><%= comment.user.username %></span>
+
+                <% if comment.user == current_user %>
+                  <%# 削除ボタン（親コメント用） %>
+                  <%= button_to theme_comment_path(@theme, comment),
+                        method: :delete,
+                        onclick: "return confirm('本当に削除しますか？');",
+                        class: 'text-app-dark/40 hover:text-red-500 text-xs bg-transparent border-0 p-0 cursor-pointer' do %>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <p class="text-xs text-app-dark leading-relaxed whitespace-pre-wrap break-words"><%= comment.body %></p>
+
+              <!-- 投稿日時 -->
+              <div class="text-right pt-0.5">
+                <span class="text-[10px] text-app-dark/50"><%= l comment.created_at, format: :short %></span>
+              </div>
+            </div>
           </div>
-          <div class="comment-body">
-            <%= simple_format(h(comment.body)) %>
-          </div>
+
 
           <%# --- 返信（会話）の開閉エリア --- %>
-          <details class="mt-2">
-            <summary class="cursor-pointer text-sm text-blue-600 hover:underline">
-              💬 返信
+          <details class="mt-2 pt-2 border-t border-app-card/30">
+            <summary class="cursor-pointer text-[11px] font-bold text-app-primary flex items-center gap-1 select-none py-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              <span>会話を見る (<%= comment.replies.size %>)</span>
             </summary>
             
-            <%# 返信一覧と返信フォームのコンテナ %>
-            <div class="replies-container pl-4 mt-3 border-l-2 border-gray-200">
-              
+            <div class="pl-4 mt-2 space-y-3 border-l-2 border-app-card/40 ml-2">
+              <%# 返信一覧 %>              
               <%# 1. 返信が存在する場合のみ一覧を表示（ない場合は何も表示しない） %>
               <% if comment.replies.present? %>
                 <% comment.replies.each do |reply| %>
-                  <div id="<%= dom_id(reply) %>" class="reply-item my-2 p-2 bg-gray-50 rounded">
-                    <div class="reply-header text-xs text-gray-600 flex items-center justify-between">
-                      <div>
-                        <span class="font-bold"><%= reply.user.username %></span>
-                        <span><%= l reply.created_at, format: :short %></span>
-                      </div>
-
-                      <%# 削除ボタン（返信コメント用） %>
-                      <% if reply.user == current_user %>
-                        <%= button_to '削除', theme_comment_path(@theme, reply),
-                              method: :delete,
-                              onclick: "return confirm('本当に削除しますか？');",
-                              class: 'text-red-500 hover:text-red-700 ml-2 text-sm bg-transparent border-0 p-0 cursor-pointer inline' %>
-                      <% end %>
+                  <div id="<%= dom_id(reply) %>" class="flex gap-2 pt-2">
+                    <!-- 返信者アイコン -->
+                    <div class="w-7 h-7 rounded-full bg-gray-200 shrink-0 flex items-center justify-center text-gray-400">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
                     </div>
-                    <div class="reply-body text-sm mt-1">
-                      <%= simple_format(h(reply.body)) %>
+
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold text-app-dark truncate"><%= reply.user.username %></span>
+
+                        <%# 削除ボタン（返信コメント用） %>
+                        <% if reply.user == current_user %>
+                          <%= button_to theme_comment_path(@theme, reply),
+                                method: :delete,
+                                onclick: "return confirm('本当に削除しますか？');",
+                                class: 'text-app-dark/40 hover:text-red-500 text-[10px] bg-transparent border-0 p-0 cursor-pointer' do %>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      <p class="text-xs text-app-dark leading-relaxed whitespace-pre-wrap break-words"><%= reply.body %></p>
+                      <span class="text-[9px] text-app-dark/40 block text-right mt-0.5"><%= l reply.created_at, format: :short %></span>
                     </div>
                   </div>
                 <% end %>
               <% end %>
 
               <%# 2. 返信入力フォーム（常に表示） %>
-              <%= form_with(model: [@theme, Comment.new], local: true, class: "mt-3") do |f| %>
+              <%= form_with(model: [@theme, Comment.new], local: true, class: "pt-2") do |f| %>
                 <%= f.hidden_field :parent_id, value: comment.id %>
-                <div class="mb-2">
-                  <%= f.text_area :body, rows: 2, class: "w-full p-2 border rounded text-sm", placeholder: "返信を入力してください" %>
+                <div class="flex gap-2">
+                  <%= f.text_area :body, rows: 1, class: "flex-1 p-2 bg-app-main/20 rounded-lg text-xs text-app-dark placeholder-app-dark/40 border-0 focus:outline-none focus:ring-1 focus:ring-app-primary resize-none", placeholder: "返信を入力してください" %>
+                  <%= f.submit "返信する", class: "px-3 py-1 bg-app-primary text-white text-xs font-bold rounded-lg active:opacity-90 transition cursor-pointer border-0 shrink-0" %>
                 </div>
-                <%= f.submit "返信する", class: "px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600" %>
               <% end %>
-
             </div>        
           </details>
+
         </div>
       <% end %>
     <% else %>
-      <p>まだコメントはありません。最初のコメントを投稿してみましょう！</p>
+      <div class="bg-white/90 rounded-2xl p-6 text-center shadow-sm border border-app-card/60">
+        <p class="text-xs text-app-dark/60">まだコメントはありません。<br>最初のコメントを投稿してみましょう！</p>
+      </div>
     <% end %>
   </div>
+
 </div>
