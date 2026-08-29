@@ -1,59 +1,50 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
+<div class="container mx-auto px-4 py-6 max-w-2xl">
+  <!-- Askロゴ -->
+  <div class="text-center mb-6">
+    <%= render 'shared/ask_logo', height: 60 %>
   </div>
 
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
-<div class="container mx-auto px-4 py-6 max-w-2xl">
-  <h1 class="text-2xl font-bold mb-6">Ask</h1>
-
   <!-- タブ切り替えボタン -->
-  <div class="flex border-b border-gray-300 mb-6">
+  <div class="flex justify-center border-b border-gray-200 mb-6">
     <!-- みんなのAsk -->
     <%= link_to 'みんなのAsk',
                 questions_path,
-                class: "px-4 py-2 text-sm font-semibold #{'border-b-2 border-blue-500 text-blue-600' unless params[:tab] == 'mine'} #{'text-gray-500 hover:text-gray-700' if params[:tab] == 'mine'}" %>
+                class: "w-1/2 text-center py-2 text-sm font-bold transition-colors #{'border-b-2 border-amber-500 text-amber-800' unless params[:tab] == 'mine'} #{'text-gray-400 hover:text-gray-600' if params[:tab] == 'mine'}" %>
 
     <!-- あなたのAsk -->
     <%= link_to 'あなたのAsk',
                 questions_path(tab: 'mine'),
-                class: "px-4 py-2 text-sm font-semibold #{'border-b-2 border-blue-500 text-blue-600' if params[:tab] == 'mine'} #{'text-gray-500 hover:text-gray-700' unless params[:tab] == 'mine'}" %>
+                class: "w-1/2 text-center py-2 text-sm font-bold transition-colors #{'border-b-2 border-amber-500 text-amber-800' if params[:tab] == 'mine'} #{'text-gray-400 hover:text-gray-600' unless params[:tab] == 'mine'}" %>
   </div>
 
-  <!-- 「あなたのAsk」タブの時のみ表示する「質問を投稿する」ボタン -->
-  <% if params[:tab] == 'mine' %>
+  <!-- 質問投稿ボタン -->
     <div class="mb-6 text-center">
-      <%= link_to '質問を投稿する', new_question_path, class: "inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-full shadow" %>
+      <%= link_to '質問を投稿する', new_question_path, class: "inline-block bg-[#904719] hover:bg-[#783a13] text-white font-bold py-2.5 px-8 rounded-full shadow-sm transition duration-150" %>
     </div>
-  <% end %>
 
   <!-- 質問一覧 -->
-  <div class="space-y-4">
+  <div class="space-y-3">
     <% if @questions.present? %>
       <% @questions.each do |question| %>
-        <div class="bg-white p-4 rounded-lg shadow border border-gray-100">
-          <div class="flex justify-between items-start">
-            <!-- タイトル（リンクあり） -->
-            <h2 class="text-lg font-bold text-blue-600">
-              <%= link_to question.title, question_path(question), class: "hover:underline" %>
+        <%= link_to question_path(question), class: "block bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition" do %>
+          <div class="flex justify-between items-center gap-4">
+            <!-- タイトル -->
+            <h2 class="text-base font-bold text-gray-800 line-clamp-2 break-words flex-1">
+              <%= question.title %>
             </h2>
-            <!-- 投稿日（リンクなし） -->
-            <span class="text-xs text-gray-400"><%= l(question.created_at, format: :short) %></span>
+            <!-- 投稿日 -->
+            <span class="text-xs text-gray-400 shrink-0"><%= l(question.created_at, format: :short) %></span>
           </div>
-        </div>
+        <% end %>
       <% end %>
     <% else %>
-      <p class="text-center text-gray-500 py-8">
-        <%= params[:tab] == 'mine' ? 'あなたが投稿した質問はありません。質問を投稿してみましょう！' : '投稿された質問はありません。' %>
-      </p>
+      <div class="bg-white p-8 rounded-xl border border-gray-100 text-center">
+        <p class="text-gray-500 text-sm">
+          <%= params[:tab] == 'mine' ? 'あなたが投稿した質問はありません。質問を投稿してみましょう！' : '投稿された質問はありません。' %>
+        </p>
+      </div>
     <% end %>
   </div>
-  </div>
+</div>

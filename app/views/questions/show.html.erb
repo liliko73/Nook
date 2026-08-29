@@ -1,136 +1,149 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
-  </div>
-
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
 <div class="container mx-auto px-4 py-6 max-w-2xl">
+  <!-- 戻るリンク -->
   <div class="mb-4">
-    <%= link_to '一覧に戻る', questions_path, class: "text-sm text-gray-500 hover:underline" %>
+    <%= link_to '一覧に戻る', questions_path, class: "text-sm text-gray-700 font-medium transition" %>
   </div>
 
   <!-- 質問表示エリア -->
-  <div class="bg-white p-6 rounded-lg shadow-sm border">
-    <div class="flex justify-between items-center mb-4 border-b pb-3">
-      <h1 class="text-xl font-bold text-gray-800"><%= @question.title %></h1>
-      <div class="flex items-center space-x-3">
-        <span class="text-xs text-gray-400"><%= l(@question.created_at, format: :short) %></span>
+  <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
+    <div class="border-b border-gray-100 pb-3 mb-4">
+      <!-- タイトル -->
+      <h1 class="text-lg font-bold text-gray-800 break-words mb-2"><%= @question.title %></h1>
+      
+      <!-- 投稿日 ＆ 削除ボタン -->
+      <div class="flex items-center space-x-3 text-xs text-gray-400">
+        <span><%= l(@question.created_at, format: :short) %></span>
 
         <%# 削除ボタン（質問用） %>
         <% if @question.user == current_user %>
-          <%= button_to '削除', question_path(@question), 
+          <%= button_to question_path(@question), 
                 method: :delete,
                 onclick: "return confirm('本当に削除しますか？');",
-                class: 'text-xs text-red-600 hover:underline bg-transparent border-0 p-0 cursor-pointer inline' %>
+                class: 'text-gray-400 hover:text-red-500 transition bg-transparent border-0 p-0 cursor-pointer inline-flex items-center',
+                title: '削除' do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          <% end %>
         <% end %>
       </div>
     </div>
 
-    <div class="text-gray-700 whitespace-pre-wrap">
-      <%= @question.body %>
-    </div>
+    <!-- 本文 -->
+    <div class="text-gray-700 text-sm whitespace-pre-wrap break-words leading-relaxed"><%= @question.body %></div>
   </div>
 
   <!-- 回答投稿フォーム -->
   <%# 質問投稿者以外のユーザーにのみ回答フォームを表示 %>
   <% unless @question.user == current_user %>
-    <div class="mt-8">
-      <h3 class="text-lg font-bold mb-4">回答する</h3>
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-8">
+      <h3 class="text-sm font-bold text-gray-800 mb-3">回答する</h3>
       <%= form_with(model: [@question, @answer], local: true) do |f| %>
         <%= render 'shared/error_messages', object: f.object if lookup_context.template_exists?('shared/_error_messages') %>
     
-        <div class="mb-4">
-          <%= f.text_area :body, rows: 4, class: 'w-full p-2 border rounded', placeholder: '回答を入力してください（相手を気遣う思いやりのある言葉遣いを心がけましょう）' %>
+        <div class="mb-3">
+          <%= f.text_area :body, rows: 4, class: 'w-full p-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#904719] focus:border-transparent', placeholder: '回答を入力してください（相手を気遣う思いやりのある言葉遣いを心がけましょう）' %>
         </div>
 
-        <%= f.submit '回答を投稿する', class: 'px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700' %>
+        <div class="text-right">
+          <%= f.submit '回答を投稿する', class: 'px-5 py-2 bg-[#904719] hover:bg-[#783a13] text-white font-bold rounded-full text-sm shadow-sm transition cursor-pointer' %>
+        </div>
       <% end %>
     </div>
   <% end %>
 
-  <hr class="my-8">
-
-  <!-- 回答一覧 -->
-  <div class="mt-8">
-    <h3 class="text-lg font-bold mb-4">みんなの回答（<%= @answers.count %>件）</h3>
+  <!-- 回答一覧エリア -->
+  <div class="space-y-4">
+    <h3 class="text-base font-bold text-gray-800">みんなの回答（<%= @answers.count %>件）</h3>
   
     <% if @answers.present? %>
-      <div class="space-y-4">
-        <% @answers.each do |answer| %>
-          <div class="p-4 border rounded bg-white shadow-sm"id="answer-<%= answer.id %>">
+      <% @answers.each do |answer| %>
+        <div class="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm space-y-4"id="answer-<%= answer.id %>">
 
-            <!-- 親回答ヘッダー・本文 -->
+          <!-- 親回答ヘッダー・本文 -->
+          <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="font-bold text-gray-700"><%= answer.user.username %></span>
+              <span class="font-bold text-sm text-gray-800"><%= answer.user.username %></span>
               <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500"><%= l answer.created_at, format: :short %></span>
+                <span class="text-xs text-gray-400"><%= l answer.created_at, format: :short %></span>
 
                 <%# 削除ボタン（親回答用） %>
                 <% if answer.user == current_user %>
-                  <%= button_to '削除', answer_path(answer),
+                  <%= button_to answer_path(answer),
                         method: :delete,
                         onclick: "return confirm('本当に削除しますか？');",
-                        class: 'text-xs text-red-600 hover:underline bg-transparent border-0 p-0 cursor-pointer inline' %>
+                        class: 'text-gray-400 hover:text-red-500 transition bg-transparent border-0 p-0 cursor-pointer inline-flex items-center',
+                        title: '削除' do %>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  <% end %>
                 <% end %>
               </div>
             </div>
-            <p class="text-gray-800 whitespace-pre-wrap"><%= answer.body %></p>
+            <p class="text-gray-700 whitespace-pre-wrap break-words leading-relaxed"><%= answer.body %></p>
+          </div>
 
-            <!-- 返信一覧（一段下げて表示） -->
-            <% if answer.replies.present? %>
-              <div class="ml-4 pl-4 border-l-2 border-gray-200 space-y-3 mb-4">
-                <% answer.replies.each do |reply| %>
-                  <div class="bg-gray-50 p-3 rounded" id="answer-<%= reply.id %>">
-                    <div class="flex items-center justify-between mb-1">
-                      <span class="font-bold text-sm text-gray-700"><%= reply.user.username %></span>
-                      <div class="flex items-center space-x-2">
-                        <span class="text-xs text-gray-400"><%= l reply.created_at, format: :short %></span>
+          <!-- 返信一覧（一段下げて表示） -->
+          <% if answer.replies.present? %>
+            <div class="ml-4 pl-4 border-l-2 border-gray-200 space-y-3 mb-4">
+              <% answer.replies.each do |reply| %>
+                <div class="bg-gray-50 p-3 rounded" id="answer-<%= reply.id %>">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="font-bold text-sm text-gray-700">
+                      <% if reply.user == @question.user %>
+                        質問者
+                      <% else %>
+                        <%= reply.user.username %>
+                      <% end %>
+                    </span>
+                    <div class="flex items-center space-x-2">
+                      <span class="text-xs text-gray-400"><%= l reply.created_at, format: :short %></span>
 
-                        <%# 削除ボタン（返信コメント用） %>
-                        <% if reply.user == current_user %>
-                          <%= button_to '削除', answer_path(reply),
-                                method: :delete,
-                                data: { turbo_confirm: '本当に削除しますか？' },
-                                class: 'text-xs text-red-600 hover:underline bg-transparent border-0 p-0 cursor-pointer inline' %>
+                      <%# 削除ボタン（返信コメント用） %>
+                      <% if reply.user == current_user %>
+                        <%= button_to answer_path(reply),
+                              method: :delete,
+                              onclick: "return confirm('本当に削除しますか？');",
+                              class: 'text-gray-400 hover:text-red-500 transition bg-transparent border-0 p-0 cursor-pointer inline-flex items-center',
+                              title: '削除' do %>
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
                         <% end %>
-                      </div>
+                      <% end %>
                     </div>
-                    <p class="text-sm text-gray-800 whitespace-pre-wrap"><%= reply.body %></p>
                   </div>
-                <% end %>
-              </div>
-            <% end %>
-
-            <!-- 各回答への返信フォーム -->
-            <div class="ml-4 pt-3 border-t border-gray-100">
-              <%# エラーが発生した対象の返信フォームであれば @answer を使い、それ以外は新規の build を使う %>
-              <% reply_target = (@answer&.parent_id == answer.id) ? @answer : @question.answers.build %>
-
-              <%= form_with(model: [@question, reply_target], local: true) do |f| %>
-                <%= render 'shared/error_messages', object: f.object if lookup_context.template_exists?('shared/_error_messages') %>
-                <%= f.hidden_field :parent_id, value: answer.id %>
-                
-                <div class="space-y-2">
-                  <%= f.text_area :body, rows: 3, class: 'w-full p-2 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-blue-500', placeholder: 'この回答に返信する...' %>
-                  <div class="flex justify-end">
-                    <%= f.submit '返信', class: 'px-3 py-1 bg-gray-600 text-white text-sm rounded hover:bg-gray-700' %>
-                  </div>
+                  <p class="text-sm text-gray-800 whitespace-pre-wrap"><%= reply.body %></p>
                 </div>
               <% end %>
             </div>
+          <% end %>
+
+          <!-- 返信入力フォーム -->
+          <div class="pt-2 border-t border-gray-100">
+            <%# エラーが発生した対象の返信フォームであれば @answer を使い、それ以外は新規の build を使う %>
+            <% reply_target = (@answer&.parent_id == answer.id) ? @answer : @question.answers.build %>
+
+            <%= form_with(model: [@question, reply_target], local: true) do |f| %>
+              <%= render 'shared/error_messages', object: f.object if lookup_context.template_exists?('shared/_error_messages') %>
+              <%= f.hidden_field :parent_id, value: answer.id %>
+                
+              <div class="flex gap-2 items-center">
+                <%= f.text_area :body, rows: 1, class: 'w-full p-2 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-[#904719]', placeholder: 'この回答に返信する...' %>
+                <%= f.submit '返信', class: 'px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs font-bold rounded-lg transition cursor-pointer shrink-0' %>
+              </div>
+            <% end %>
           </div>
-        <% end %>
-      </div>
+
+        </div>
+      <% end %>
     <% else %>
-      <p class="text-gray-500">まだ回答はありません。最初の回答を投稿してみましょう！</p>
+      <div class="bg-white p-6 rounded-xl border border-gray-100 text-center">
+        <p class="text-gray-400">まだ回答はありません。最初の回答を投稿してみましょう！</p>
+      </div>
     <% end %>
   </div>
 </div>
