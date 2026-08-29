@@ -92,7 +92,13 @@
               <% answer.replies.each do |reply| %>
                 <div class="bg-gray-50 p-3 rounded" id="answer-<%= reply.id %>">
                   <div class="flex items-center justify-between mb-1">
-                    <span class="font-bold text-sm text-gray-700"><%= reply.user.username %></span>
+                    <span class="font-bold text-sm text-gray-700">
+                      <% if reply.user == @question.user %>
+                        質問者
+                      <% else %>
+                        <%= reply.user.username %>
+                      <% end %>
+                    </span>
                     <div class="flex items-center space-x-2">
                       <span class="text-xs text-gray-400"><%= l reply.created_at, format: :short %></span>
 
