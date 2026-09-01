@@ -1,69 +1,66 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
-  </div>
+<div class="container mx-auto px-4 py-8 max-w-md">
+  <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">ユーザー情報</h1>
 
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
-<div class="container mx-auto px-4 py-8 max-w-lg">
-  <h1 class="text-2xl font-bold mb-6 text-center">ユーザー情報</h1>
-
-  <div class="bg-white shadow rounded-lg p-6 space-y-4">
+  <div class="bg-white rounded-2xl border border-app-card p-6 shadow-sm space-y-5">
+    <!-- アイコン画像ダミーエリア -->
+    <div class="user-avatar-default" style="width: 80px; height: 80px; border-radius: 50%; background-color: #E2E8F0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+      <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-2">
+        <svg class="w-12 h-12 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+        </svg>
+      </div>
+    </div>
+    
     <div>
-      <span class="text-gray-500 text-sm block">メールアドレス</span>
-      <p class="font-medium"><%= @user.email %></p>
+      <span class="text-xs text-gray-500 block font-medium">メールアドレス</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= @user.email %></p>
     </div>
 
     <div>
-      <span class="text-gray-500 text-sm block">ニックネーム</span>
-      <p class="font-medium"><%= @user.username %></p>
+      <span class="text-xs text-gray-500 block font-medium">ニックネーム</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= @user.username %></p>
     </div>
 
     <div>
-      <span class="text-gray-500 text-sm block">ひとこと</span>
-      <p class="font-medium"><%= @user.self_introduction %></p>
+      <span class="text-xs text-gray-500 block font-medium">ひとこと</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= @user.self_introduction %></p>
     </div>
 
     <div>
-      <span class="text-gray-500 text-sm block">あなたの生年月日</span>
-      <p class="font-medium"><%= "#{@user.birthday_year}年 #{@user.birthday_month}月 #{@user.birthday_date}日" %></p>
+      <span class="text-xs text-gray-500 block font-medium">あなたの生年月日</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= "#{@user.birthday_year}年 #{@user.birthday_month}月 #{@user.birthday_date}日" %></p>
     </div>
 
     <div>
-      <span class="text-gray-500 text-sm block">あなたの性別</span>
-      <p class="font-medium"><%= I18n.t("enums.user.gender.#{@user.gender}", default: @user.gender) %></p>
+      <span class="text-xs text-gray-500 block font-medium">あなたの性別</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= I18n.t("enums.user.gender.#{@user.gender}", default: @user.gender) %></p>
     </div>
 
     <div>
-      <span class="text-gray-500 text-sm block">居住地</span>
-      <p class="font-medium"><%= @user.prefecture.presence || "未設定" %></p>
+      <span class="text-xs text-gray-500 block font-medium">居住地</span>
+      <p class="text-sm font-medium text-app-dark mt-1"><%= @user.prefecture.presence || "未設定" %></p>
     </div>
 
     <!-- お子様情報表示例 -->
-    <div class="mt-6 border-t pt-4">
-      <h2 class="text-md font-bold text-gray-800 mb-2">お子様の情報</h2>
+    <div class="border-t border-gray-100 pt-4">
+      <span class="text-xs text-gray-500 block font-medium mb-2">お子様の情報</h2>
       <% if @user.children.any? %>
-        <ul class="space-y-2">
+        <div class="space-y-2">
           <% @user.children.each_with_index do |child, i| %>
-            <li class="text-sm text-gray-700 bg-gray-50 p-3 rounded border">
-              <span class="font-semibold">お子様 <%= i + 1 %>:</span>
-              <%= child.birthday_year %>年 <%= child.birthday_month %>月 <%= child.birthday_date %>日生まれ
-              （<%= I18n.t("enums.child.gender.#{child.gender}") %>）
-            </li>
+            <div class="bg-app-main/20 p-3 rounded-lg border border-app-card/40 text-xs text-app-dark">
+              <p class="font-semibold text-gray-800 mb-1">お子様 <%= i + 1 %>:</p>
+              <p>生年月日：<%= child.birthday_year %>年 <%= child.birthday_month %>月 <%= child.birthday_date %>日</p>
+              <p>性別：<%= child.gender.present? ? I18n.t("enums.child.gender.#{child.gender}", default: child.gender) : "未設定" %></p>
+            </div>
           <% end %>
-        </ul>
+        </div>
       <% end %>
     </div>
 
-    <div class="pt-4 text-center">
-      <%= link_to "修正する", edit_profile_path, class: "btn btn-primary w-full py-2 px-4 rounded" %>
+    <div class="pt-4">
+      <%= link_to "修正する", edit_profile_path, class: "block w-full text-center py-2 px-4 rounded-xl font-bold text-white bg-app-primary hover:opacity-90 transition shadow-sm" %>
     </div>
   </div>
 </div>
