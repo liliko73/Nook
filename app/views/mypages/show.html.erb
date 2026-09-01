@@ -1,25 +1,17 @@
 <%= render "shared/flash_message" %>
 
-<header>
-  <!-- ロゴ（クリックでトップページへ戻るリンク） -->
-  <div class="logo">
-    <%= link_to 'ロゴ', root_path %>
-  </div>
+<div class="container mx-auto px-4 py-6 max-w-md">
+  <h1 class="text-2xl font-bold text-center text-app-primary mb-6">Mypage</h1>
 
-  <!-- ナビゲーション（ログアウトボタン） -->
-  <nav>
-    <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
-  </nav>
-</header>
-
-<div class="max-w-md mx-auto my-8 p-4">
-  <h1 class="text-2xl font-bold text-center mb-6">Mypage</h1>
-
-  <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-    <ul class="divide-y divide-gray-200">
+  <div class="bg-white rounded-2xl border border-app-card overflow-hidden shadow-sm">
+    <ul class="divide-y divide-gray-100">
       <li>
-        <%# ユーザー情報（閲覧）ページへ遷移 %>
-        <%= link_to 'ユーザー情報', profile_path, class: "block px-4 py-3 hover:bg-gray-50 text-gray-700 font-medium" %>
+        <%= link_to profile_path, class: "flex items-center justify-between px-6 py-4 hover:bg-app-main/20 text-app-dark font-medium transition" do %>
+          <span>ユーザー情報</span>
+          <svg class="w-4 h-4 text-app-dark/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        <% end %>
       </li>
     </ul>
   </div>
