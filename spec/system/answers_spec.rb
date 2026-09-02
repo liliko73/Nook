@@ -29,4 +29,43 @@ RSpec.describe "Answers", type: :system do
 
     expect(page).not_to have_field "answer[body]"
   end
+
+  it "回答に返信を投稿できること" do
+    answer = create(
+      :answer,
+      user: user,
+      question: question,
+      parent_id: nil,
+      body: "親回答です"
+    )
+
+    visit question_path(question)
+
+    within("#answer-#{answer.id}") do
+      fill_in "answer[body]", with: "回答への返信です"
+      click_button "返信"
+    end
+
+    expect(page).to have_content "回答への返信です"
+  end
+
+  it "自分の回答を削除できること" do
+    answer = create(
+      :answer,
+      user: user,
+      question: question,
+      parent_id: nil,
+      body: "削除する回答です"
+    )
+
+    visit question_path(question)
+
+    within("#answer-#{answer.id}") do
+      accept_confirm do
+        find('button[title="削除"]').click
+      end
+    end
+
+    expect(page).not_to have_content "削除する回答です"
+  end
 end
