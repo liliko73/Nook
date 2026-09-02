@@ -15,11 +15,18 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - chrome
     environment:
       DATABASE_HOST: db
       DATABASE_PASSWORD: password
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
     tty: true
     stdin_open: true
+
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
 
 volumes:
   postgres_data:
