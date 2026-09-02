@@ -79,4 +79,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   # Deviseのヘルパーメソッド（sign_inなど）をrequest specで有効化
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
+  # Wardenのテストヘルパー（login_asなど）をsystem specで有効化
+  config.include Warden::Test::Helpers
 end
