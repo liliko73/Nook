@@ -7,7 +7,6 @@ RSpec.describe "Answers", type: :system do
   let!(:own_question) { create(:question, user: user) }
 
   before do
-
     visit new_user_session_path
 
     fill_in "メールアドレス", with: user.email
