@@ -105,7 +105,7 @@ jobs:
         run: docker compose build
 
       - name: Start services
-        run: docker compose up -d db chrome
+        run: docker compose up -d db chrome web
 
       - name: Wait for database
         run: |
@@ -120,10 +120,10 @@ jobs:
           done
 
       - name: Prepare test database
-        run: docker compose run --rm web bin/rails db:test:prepare
+        run: docker compose exec -T web bin/rails db:test:prepare
 
       - name: Run system tests
-        run: docker compose run --rm web bundle exec rspec spec/system
+        run: docker compose exec -T web bundle exec rspec spec/system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
