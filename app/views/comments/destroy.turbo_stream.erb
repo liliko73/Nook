@@ -1,0 +1,7 @@
+<%# 指定したdom_id（例: comment_123）のHTML要素を画面から削除 %>
+<%= turbo_stream.remove dom_id(@comment) %>
+
+<%# Flashメッセージ領域をリアルタイム更新する場合（既存の構造に合わせて調整してください） %>
+<%= turbo_stream.update "flash" do %>
+  <%= render "shared/flash_message", notice: 'コメントを削除しました' %>
+<% end %>

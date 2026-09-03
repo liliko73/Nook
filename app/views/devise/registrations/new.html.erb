@@ -1,0 +1,204 @@
+<div class="min-h-screen flex flex-col justify-center items-center py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-6">
+
+    <!-- タイトル ＆ アイコン -->
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">ユーザー登録</h2>
+
+      <!-- アイコン画像ダミーエリア -->
+      <div class="user-avatar-default" style="width: 80px; height: 80px; border-radius: 50%; background-color: #E2E8F0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+        <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-2">
+          <svg class="w-12 h-12 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ★ 各お子様の初期表示判定とinitial_countの定義をform_forの外側（上部）に配置 ★ -->
+    <% has_child_2 = resource.children[1].present? && (resource.children[1].birthday_year.present? || resource.children[1].gender.present?) %>
+    <% has_child_3 = resource.children[2].present? && (resource.children[2].birthday_year.present? || resource.children[2].gender.present?) %>
+    <% has_child_4 = resource.children[3].present? && (resource.children[3].birthday_year.present? || resource.children[3].gender.present?) %>
+    <% initial_count = [1, (has_child_2 ? 2 : 1), (has_child_3 ? 3 : 1), (has_child_4 ? 4 : 1)].max %>
+
+    <%= form_for(resource, as: resource_name, url: users_sign_up_confirm_path, method: :post, html: { class: "space-y-5" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <!-- メールアドレス -->
+      <div>
+        <%= f.label :email, "メールアドレス", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- パスワード -->
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <%= f.label :password, "パスワード", class: "block text-base text-gray-800 text-left" %>
+          <% if @minimum_password_length %>
+            <span class="text-xs text-gray-500">(<%= @minimum_password_length %> 文字以上)</span>
+          <% end %>
+        </div>
+        <%= f.password_field :password, autocomplete: "new-password", class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- パスワード（確認用） -->
+      <div>
+        <%= f.label :password_confirmation, "パスワード（確認用）", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- ニックネーム -->
+      <div>
+        <%= f.label :username, "ニックネーム", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.text_field :username, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- ひとこと -->
+      <div>
+        <%= f.label :self_introduction, "ひとこと", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.text_area :self_introduction, rows: 3, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- あなたの生年月日 -->
+      <div>
+        <%= f.label :birthday_year, "あなたの生年月日", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <div class="flex items-center gap-2">
+          <%= f.number_field :birthday_year, placeholder: "年 (例: 1990)", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+          <%= f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
+          <%= f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
+        </div>
+      </div>
+
+      <!-- あなたの性別 -->
+      <div>
+        <%= f.label :gender, "あなたの性別", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.select :gender, [["男性", "male"], ["女性", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <!-- 居住地（任意） -->
+      <div>
+        <%= f.label :prefecture, "居住地（任意）", class: "block text-base text-gray-800 mb-1 text-left" %>
+        <%= f.select :prefecture, User::PREFECTURES, { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+      </div>
+
+      <hr class="my-6 border-gray-200" />
+
+      <!-- 1人目のお子様情報 -->
+      <%= f.fields_for :children, resource.children.first || resource.children.build do |c| %>
+        <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div>
+            <%= c.label :birthday_year, "お子様の生年月日", class: "block text-base text-gray-800 mb-1 text-left" %>
+            <div class="flex items-center gap-2">
+              <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+              <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
+              <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
+            </div>
+          </div>
+    
+          <div>
+            <%= c.label :gender, "お子様の性別", class: "block text-base text-gray-800 mb-1 text-left" %>
+            <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- 2人目のお子様情報 -->
+      <div id="child-field-2" style="<%= has_child_2 ? '' : 'display: none;' %>">
+        <%= f.fields_for :children, resource.children[1] || resource.children.build do |c| %>
+          <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200 mt-4">
+            <div>
+              <%= c.label :birthday_year, "お子様の生年月日（2人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <div class="flex items-center gap-2">
+                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
+                <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
+              </div>
+            </div>
+
+            <div>
+              <%= c.label :gender, "お子様の性別（2人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- 3人目のお子様情報 -->
+      <div id="child-field-3" style="<%= has_child_3 ? '' : 'display: none;' %>">
+        <%= f.fields_for :children, resource.children[2] || resource.children.build do |c| %>
+          <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200 mt-4">
+            <div>
+              <%= c.label :birthday_year, "お子様の生年月日（3人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <div class="flex items-center gap-2">
+                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
+                <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
+              </div>
+            </div>        
+
+            <div>
+              <%= c.label :gender, "お子様の性別（3人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- 4人目のお子様情報 -->
+      <div id="child-field-4" style="<%= has_child_4 ? '' : 'display: none;' %>">
+        <%= f.fields_for :children, resource.children[3] || resource.children.build do |c| %>
+          <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200 mt-4">
+            <div>
+              <%= c.label :birthday_year, "お子様の生年月日（4人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <div class="flex items-center gap-2">
+                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
+                <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
+              </div>
+            </div>
+
+            <div>
+              <%= c.label :gender, "お子様の性別（4人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
+              <%= c.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- お子様追加ボタン -->
+      <div class="pt-2">
+        <button type="button" id="add-child-btn" onclick="addChildForm()" style="<%= initial_count >= 4 ? 'display: none;' : '' %>" class="w-full py-2 px-4 border border-dashed border-gray-300 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 focus:outline-none transition" >
+          + 登録するお子様を追加
+        </button>
+      </div>
+
+      <!-- 送信ボタン -->
+      <div class="pt-4">
+        <%= f.submit "入力内容の確認", class: "w-full py-3 px-4 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl shadow-md transition duration-150 cursor-pointer text-center" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<!-- JavaScriptによる順次追加処理 -->
+<script>
+  let currentChildCount = <%= initial_count %>;
+
+  function addChildForm() {
+    if (currentChildCount < 4) {
+      currentChildCount++;
+      const nextField = document.getElementById("child-field-" + currentChildCount);
+      if (nextField) {
+        nextField.style.display = "block";
+      }
+    }
+
+    if (currentChildCount >= 4) {
+      const addChildBtn = document.getElementById("add-child-btn");
+      if (addChildBtn) {
+        addChildBtn.style.display = "none";
+      }
+    }
+  }
+</script>

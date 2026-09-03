@@ -1,0 +1,16 @@
+<header class="bg-white/80 backdrop-blur-sm border-b border-app-card sticky top-0 z-50">
+  <div class="container mx-auto px-4 h-16 flex items-center justify-between max-w-4xl">
+    
+    <!-- ロゴをクリックするとトップページに戻るリンク -->
+    <%= link_to root_path, class: "inline-flex items-center cursor-pointer no-underline" do %>
+      <%= render 'shared/logo', height: 36 %>
+    <% end %>
+
+    <nav class="flex items-center gap-4">
+      <% if user_signed_in? %>
+        <%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: "text-xs text-app-dark hover:text-app-primary transition bg-transparent border-0 cursor-pointer" %>
+      <% end %>
+    </nav>
+
+  </div>
+</header>

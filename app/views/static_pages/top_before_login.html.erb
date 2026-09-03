@@ -1,0 +1,24 @@
+<%= render "shared/flash_message" %>
+
+<div class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-sm border border-app-card text-center">
+    
+    <!-- アプリロゴ -->
+    <div class="mb-6 flex justify-center">
+      <%= render 'shared/logo', height: 60 %>
+    </div>
+
+    <!-- 説明文 -->
+    <main class="description mb-8">
+      <p class="text-app-dark leading-relaxed text-sm">
+        Nook（ヌック）とは「居心地の良いこぢんまりとした場所」を意味する言葉です。このアプリは子育てのちょっとした疑問や、思わず誰かに話したくなる子どもの成長を気軽に共有できるコミュニティです。安心して話せる場所で、子育てをもっと楽しく、心が軽くなる時間を届けます。</p>
+      </p> 
+    </main>
+
+    <!-- アクションボタン -->
+    <div class="actions flex flex-col gap-3">
+      <%= link_to 'ユーザー登録', new_user_registration_path, class: 'w-full py-3 px-4 rounded-full bg-app-primary text-white font-bold hover:opacity-90 transition shadow-sm inline-block text-center no-underline' %>
+      <%= link_to 'ログイン', new_user_session_path, class: 'w-full py-3 px-4 rounded-full bg-app-primary text-white font-bold hover:opacity-90 transition shadow-sm inline-block text-center no-underline' %>
+    </div>
+  </div>
+</div>

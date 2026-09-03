@@ -1,0 +1,14 @@
+<% height = local_assigns[:height] || 32 %>
+<% text_color = local_assigns[:text_color] || "#904719" %>
+
+<div class="flex items-center gap-2 inline-flex select-none">
+  <svg height="<%= height %>" viewBox="0 0 130 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- クエスチョン吹き出し -->
+    <path d="M 8 18 C 8 12 14 8 21 8 C 28 8 33 12 33 18 C 33 22 29 25 25 27 L 27 32 L 21 29 C 21 29 8 28 8 18 Z" fill="#05435f" />
+    <text x="17" y="22" fill="#efe4cc" font-family="'Zen Maru Gothic', sans-serif" font-weight="900" font-size="15">?</text>
+    <!-- ひらめきスパーク -->
+    <path d="M 31 10 L 33 6 M 34 14 L 38 13" stroke="#904719" stroke-width="2" stroke-linecap="round" />
+    <!-- テキスト -->
+    <text x="40" y="34" fill="<%= text_color %>" font-family="'Zen Maru Gothic', sans-serif" font-weight="800" font-size="24" letter-spacing="0.5">Ask</text>
+  </svg>
+</div>

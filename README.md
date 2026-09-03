@@ -1,3 +1,5 @@
+# README
+
 # Nook
 RUNTEQ卒業制作アプリ（第二案）
 
@@ -385,8 +387,9 @@ RUNTEQ卒業制作アプリ（第二案）
 	- コミュニティサービスでは投稿内容の管理やバリデーションも考慮する必要があること
 
 
-画面遷移図
-Figma：https://www.figma.com/design/UNkCD62qgXWW37z3NmrNV1/%E7%84%A1%E9%A1%8C?node-id=0-1&p=f&t=j4SoKfndhcsj6aLp-0
+### 画面遷移図
+Figma：<https://www.figma.com/design/UNkCD62qgXWW37z3NmrNV1/%E7%84%A1%E9%A1%8C?node-id=0-1&p=f&t=j4SoKfndhcsj6aLp-0>
 
-ER図
+### ER図
 https://dbdiagram.io/d/6a56ecb4c3a90dd98d399851
+
