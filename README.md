@@ -353,13 +353,13 @@ RUNTEQ卒業制作アプリ（第二案）
 - デプロイ先：Render
 - 使用予定ライブラリ：
 	- Devise（ユーザー認証）
+	- Resend（メール送信）
+	- rails-i18n（日本語化）
+    - devise-i18n（日本語化）
 	- Ransack（検索機能）
 	- CarrierWave（画像アップロード）
 	- MiniMagick（画像リサイズ）
 	- Kaminari（ページネーション）
-	- rails-i18n（日本語化）
-    - devise-i18n（日本語化）
-
 
 
 ---
