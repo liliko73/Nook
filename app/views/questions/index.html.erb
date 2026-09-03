@@ -1,0 +1,50 @@
+<%= render "shared/flash_message" %>
+
+<div class="container mx-auto px-4 py-6 max-w-2xl">
+  <!-- Askロゴ -->
+  <div class="text-center mb-6">
+    <%= render 'shared/ask_logo', height: 60 %>
+  </div>
+
+  <!-- タブ切り替えボタン -->
+  <div class="flex justify-center border-b border-gray-200 mb-6">
+    <!-- みんなのAsk -->
+    <%= link_to 'みんなのAsk',
+                questions_path,
+                class: "w-1/2 text-center py-2 text-sm font-bold transition-colors #{'border-b-2 border-amber-500 text-amber-800' unless params[:tab] == 'mine'} #{'text-gray-400 hover:text-gray-600' if params[:tab] == 'mine'}" %>
+
+    <!-- あなたのAsk -->
+    <%= link_to 'あなたのAsk',
+                questions_path(tab: 'mine'),
+                class: "w-1/2 text-center py-2 text-sm font-bold transition-colors #{'border-b-2 border-amber-500 text-amber-800' if params[:tab] == 'mine'} #{'text-gray-400 hover:text-gray-600' unless params[:tab] == 'mine'}" %>
+  </div>
+
+  <!-- 質問投稿ボタン -->
+    <div class="mb-6 text-center">
+      <%= link_to '質問を投稿する', new_question_path, class: "inline-block bg-[#904719] hover:bg-[#783a13] text-white font-bold py-2.5 px-8 rounded-full shadow-sm transition duration-150" %>
+    </div>
+
+  <!-- 質問一覧 -->
+  <div class="space-y-3">
+    <% if @questions.present? %>
+      <% @questions.each do |question| %>
+        <%= link_to question_path(question), class: "block bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition" do %>
+          <div class="flex justify-between items-center gap-4">
+            <!-- タイトル -->
+            <h2 class="text-base font-bold text-gray-800 line-clamp-2 break-words flex-1">
+              <%= question.title %>
+            </h2>
+            <!-- 投稿日 -->
+            <span class="text-xs text-gray-400 shrink-0"><%= l(question.created_at, format: :short) %></span>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="bg-white p-8 rounded-xl border border-gray-100 text-center">
+        <p class="text-gray-500 text-sm">
+          <%= params[:tab] == 'mine' ? 'あなたが投稿した質問はありません。質問を投稿してみましょう！' : '投稿された質問はありません。' %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

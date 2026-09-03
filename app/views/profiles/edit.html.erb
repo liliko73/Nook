@@ -1,0 +1,157 @@
+<%= render "shared/flash_message" %>
+
+<div class="container mx-auto px-4 py-8 max-w-md">
+  <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">ユーザー情報編集</h1>
+
+  <div class="bg-white rounded-2xl border border-app-card p-6 shadow-sm">
+    <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
+      <% if @user.errors.any? %>
+        <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-xs mb-4">
+          <ul class="list-disc pl-4 space-y-1">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="space-y-4 text-xs">
+
+        <!-- アイコン画像ダミーエリア -->
+        <div class="user-avatar-default" style="width: 80px; height: 80px; border-radius: 50%; background-color: #E2E8F0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+          <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-2">
+            <svg class="w-12 h-12 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :email, "メールアドレス", class: "block font-medium text-gray-700 mb-1" %>
+          <%= f.email_field :email, value: @user.email, disabled: true, class: "w-full bg-gray-100 border border-gray-300 rounded-lg p-2.5 text-gray-500" %>
+          <p class="text-[10px] text-gray-400 mt-1">※メールアドレスの変更はできません</p>
+        </div>
+
+        <div>
+          <%= f.label :username, "ニックネーム", class: "block text-medium text-gray-700 mb-1" %>
+          <%= f.text_field :username, class: "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %>
+        </div>
+
+
+        <div>
+          <%= f.label :self_introduction, "ひとこと", class: "block font-medium text-gray-700 mb-1" %>
+          <%= f.text_area :self_introduction, rows: 3, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark focus:ring-1 focus:ring-app-primary focus:border-app-primary" %>
+        </div>
+
+        <div>
+          <!-- 全体の見出しラベル -->
+          <label class="block font-medium text-gray-700 mb-1">あなたの生年月日</label>
+        
+          <!-- 年・月・日 を3列で並べるグリッド -->
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <%= f.number_field :birthday_year, placeholder: "年", class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
+            </div>
+            <div>
+              <%= f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
+            </div>
+            <div>
+              <%= f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :gender, "あなたの性別", class: "block font-medium text-gray-700 mb-1" %>
+          <%= f.select :gender, User.genders.keys.map { |k| [I18n.t("enums.user.gender.#{k}", default: k.titleize), k] }, {}, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark bg-white" %>
+        </div>
+
+        <div>
+          <%= f.label :prefecture, "居住地（任意）", class: "block font-medium text-gray-700 mb-1" %>
+          <%= f.select :prefecture, User::PREFECTURES, { include_blank: "選択してください" }, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark bg-white" %>
+        </div>
+
+        <!-- お子様情報セクション -->
+        <div class="border-t border-gray-100 pt-4 mt-6">
+          <h2 class="text-sm font-bold text-gray-800 mb-3 ">お子様の情報</h2>
+
+          <%# 登録済み、または入力済みの人数を初期表示カウントとする %>
+          <% initial_count = @user.children.select { |c| c.persisted? || c.birthday_year.present? || c.gender.present? }.size %>
+          <% initial_count = [initial_count, 1].max %>
+
+          <%= f.fields_for :children do |child_f| %>
+            <% index = child_f.index %>
+            <% is_visible = index < initial_count %>
+
+            <div id="child-field-<%= index + 1 %>" 
+                 class="bg-app-main/20 p-3 rounded-xl border border-app-card/40 mb-3 space-y-3"
+                 style="<%= is_visible ? '' : 'display: none;' %>">
+            
+              <label class="block font-semibold text-gray-600 ">
+                お子様 <%= index + 1 %>
+              </label>
+
+              <!-- 生年月日 (年・月・日) -->
+              <div>
+                <label class="block text-gray-500 mb-1">生年月日</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <%= child_f.number_field :birthday_year, placeholder: "年", class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
+                  <%= child_f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
+                  <%= child_f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
+                </div>
+              </div>
+
+              <!-- 性別 -->
+              <div>
+                <%= child_f.label :gender, "性別", class: "block text-gray-600 mb-1" %>
+                <%= child_f.select :gender, [["男の子", "male"], ["女の子", "female"], ["その他", "other"]], { include_blank: "選択してください" }, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-app-dark bg-white" %>
+              </div>
+
+              <!-- 既存のデータ（DB保存済み）かつ複数人存在する場合のみ削除チェックボックスを表示 -->
+              <% if child_f.object.persisted? && @user.children.select(&:persisted?).size > 1 %>
+                <div class="flex items-center mt-2 pt-2 border-t border-gray-200">
+                  <%= child_f.check_box :_destroy, class: "h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded" %>
+                  <%= child_f.label :_destroy, "このお子様情報を削除する", class: "ml-2 font-medium text-red-600" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- お子様追加ボタン -->
+          <div class="pt-2">
+            <button type="button" id="add-child-btn" onclick="addChildForm()" style="<%= initial_count >= 4 ? 'display: none;' : '' %>" class="w-full py-2 px-4 border border-dashed border-gray-300 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 focus:outline-none transition" >
+              + 登録するお子様を追加
+            </button>
+          </div>
+        </div>
+
+      <!-- JavaScriptによる追加処理 -->
+        <script>
+          let currentChildCount = <%= initial_count %>;
+
+          function addChildForm() {
+            if (currentChildCount < 4) {
+              currentChildCount++;
+              const nextField = document.getElementById("child-field-" + currentChildCount);
+              if (nextField) {
+                nextField.style.display = "block";
+              }
+            }
+
+            if (currentChildCount >= 4) {
+              const addChildBtn = document.getElementById("add-child-btn");
+              if (addChildBtn) {
+                addChildBtn.style.display = "none";
+              }
+            }
+          }
+        </script>
+
+        <div class="pt-4 flex space-x-3">
+          <%= link_to "キャンセル", profile_path, class: "w-1/2 text-center py-2 px-4 border border-gray-300 rounded-xl font-medium text-gray-600 hover:bg-gray-50 transition" %>
+          <%= f.submit "更新する", class: "w-1/2 py-2 px-4 rounded-xl font-medium text-white bg-app-primary hover:opacity-90 transition shadow-sm cursor-pointer" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

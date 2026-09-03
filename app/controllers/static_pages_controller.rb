@@ -1,0 +1,17 @@
+class StaticPagesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :top ]
+
+  def top
+    if user_signed_in?
+      # 最新のテーマを1件取得（シードデータ等の最初のデータ）
+      @theme = Theme.first
+      # 作成日時の新しい順（created_at: :desc）で最新の3件（limit(3)）を取得
+      @questions = Question.order(created_at: :desc).limit(3)
+      # ログイン済みの場合は top_logged_in.html.erb を表示
+      render :top_logged_in
+    else
+      # 未ログインの場合は top_before_login.html.erb を表示
+      render :top_before_login
+    end
+  end
+end
