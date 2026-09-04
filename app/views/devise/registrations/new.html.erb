@@ -63,7 +63,7 @@
       <div>
         <%= f.label :birthday_year, "あなたの生年月日", class: "block text-base text-gray-800 mb-1 text-left" %>
         <div class="flex items-center gap-2">
-          <%= f.number_field :birthday_year, placeholder: "年 (例: 1990)", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+          <%= f.number_field :birthday_year, placeholder: "年 (例: 1990)", min: 1900, max: Time.zone.now.year, class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
           <%= f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
           <%= f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
         </div>
@@ -89,7 +89,7 @@
           <div>
             <%= c.label :birthday_year, "お子様の生年月日", class: "block text-base text-gray-800 mb-1 text-left" %>
             <div class="flex items-center gap-2">
-              <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+              <%= c.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
               <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
               <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
             </div>
@@ -109,7 +109,7 @@
             <div>
               <%= c.label :birthday_year, "お子様の生年月日（2人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
               <div class="flex items-center gap-2">
-                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
                 <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
                 <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
               </div>
@@ -130,7 +130,7 @@
             <div>
               <%= c.label :birthday_year, "お子様の生年月日（3人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
               <div class="flex items-center gap-2">
-                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
                 <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
                 <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
               </div>
@@ -151,7 +151,7 @@
             <div>
               <%= c.label :birthday_year, "お子様の生年月日（4人目）", class: "block text-base text-gray-800 mb-1 text-left" %>
               <div class="flex items-center gap-2">
-                <%= c.number_field :birthday_year, placeholder: "年", class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
+                <%= c.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-1/3 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 年
                 <%= c.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 月
                 <%= c.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-1/4 px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-gray-800" %> 日
               </div>
