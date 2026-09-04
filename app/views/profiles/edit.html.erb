@@ -50,7 +50,7 @@
           <!-- 年・月・日 を3列で並べるグリッド -->
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <%= f.number_field :birthday_year, placeholder: "年", class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
+              <%= f.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
             </div>
             <div>
               <%= f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2.5 text-app-dark" %>
@@ -95,7 +95,7 @@
               <div>
                 <label class="block text-gray-500 mb-1">生年月日</label>
                 <div class="grid grid-cols-3 gap-2">
-                  <%= child_f.number_field :birthday_year, placeholder: "年", class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
+                  <%= child_f.number_field :birthday_year, placeholder: "年", min: 1900, max: Time.zone.now.year, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
                   <%= child_f.number_field :birthday_month, placeholder: "月", in: 1..12, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
                   <%= child_f.number_field :birthday_date, placeholder: "日", in: 1..31, class: "w-full border border-gray-300 rounded-lg shadow-sm p-2 text-gray-700 bg-white" %>
                 </div>

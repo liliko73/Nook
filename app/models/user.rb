@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   # バリデーション
   validates :username, presence: true, length: { maximum: 50 }
-  validates :birthday_year, presence: true
+  validates :birthday_year, presence: true, numericality: { greater_than_or_equal_to: 1900, less_than_or_equal_to: ->(_user) { Time.zone.now.year } }
   validates :birthday_month, presence: true
   validates :birthday_date, presence: true
   validates :gender, presence: true
