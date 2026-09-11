@@ -44,6 +44,31 @@
     <% end %>
   </div>
 
+  <!-- リアクション説明バナー（Issue#13 要件） -->
+  <div class="bg-app-main/30 border border-app-card/60 rounded-xl p-3 text-xs text-app-dark space-y-1.5">
+    <div class="font-bold text-[11px] text-app-primary flex items-center gap-1">
+      <span>✨ 気持ちを伝えるリアクション</span>
+    </div>
+    <div class="grid grid-cols-3 gap-1.5 text-[10px] text-app-dark/80 pt-0.5">
+      <div class="bg-white/60 p-1.5 rounded-lg text-center border border-app-card/30">
+        <span class="block text-xs">❤️</span>
+        <span class="font-bold">いいね！</span>
+      </div>
+      <div class="bg-white/60 p-1.5 rounded-lg text-center border border-app-card/30">
+        <span class="block text-xs">🖐️</span>
+        <span class="font-bold">うちも！</span>
+      </div>
+      <div class="bg-white/60 p-1.5 rounded-lg text-center border border-app-card/30">
+        <span class="block text-xs">☕️</span>
+        <span class="font-bold">お疲れ様</span>
+      </div>
+    </div>
+    <p class="text-[9px] text-app-dark/50 text-center pt-0.5">
+      ※自身の投稿のみにリアクション数が表示されます<br>
+      ※他のユーザーにリアクション数は表示されません
+    </p>
+  </div>
+
   <!-- コメント一覧表示 -->
   <div class="space-y-2.5">
     <h3>みんなのコメント</h3>
@@ -78,6 +103,9 @@
               </div>
 
               <p class="text-xs text-app-dark leading-relaxed whitespace-pre-wrap break-words"><%= comment.body %></p>
+
+              <!-- 親コメントのリアクションボタン -->
+              <%= render 'comment_reactions/buttons', theme: @theme, comment: comment %>
 
               <!-- 投稿日時 -->
               <div class="text-right pt-0.5">
@@ -122,6 +150,10 @@
                         <% end %>
                       </div>
                       <p class="text-xs text-app-dark leading-relaxed whitespace-pre-wrap break-words"><%= reply.body %></p>
+
+                      <!-- 返信コメントのリアクションボタン -->
+                      <%= render 'comment_reactions/buttons', theme: @theme, comment: reply %>
+
                       <span class="text-[9px] text-app-dark/40 block text-right mt-0.5"><%= l reply.created_at, format: :short %></span>
                     </div>
                   </div>

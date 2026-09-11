@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_045855) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_061349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_045855) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_children_on_user_id"
+  end
+
+  create_table "comment_reactions", force: :cascade do |t|
+    t.bigint "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "reaction_type", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["comment_id"], name: "index_comment_reactions_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_comment_reactions_on_user_id_and_comment_id", unique: true
+    t.index ["user_id"], name: "index_comment_reactions_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -91,6 +102,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_045855) do
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "children", "users"
+  add_foreign_key "comment_reactions", "comments"
+  add_foreign_key "comment_reactions", "users"
   add_foreign_key "comments", "themes"
   add_foreign_key "comments", "users"
   add_foreign_key "questions", "users"

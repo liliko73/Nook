@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "comment_#{@comment.id}_reactions" do %>
+  <%= render 'comment_reactions/buttons', theme: @theme, comment: @comment %>
+<% end %>

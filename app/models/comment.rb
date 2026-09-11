@@ -8,5 +8,8 @@ class Comment < ApplicationRecord
   # 子コメント（返信）との関連（parent_id が自分の id を指しているコメント群）
   has_many :replies, class_name: "Comment", foreign_key: "parent_id", dependent: :destroy
 
+  # リアクションとの関連付け
+  has_many :comment_reactions, dependent: :destroy
+
   validates :body, presence: true, length: { maximum: 1000 }
 end
