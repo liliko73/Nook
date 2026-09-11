@@ -9,6 +9,6 @@ class CreateCommentReactions < ActiveRecord::Migration[8.1]
     end
 
     # 1人のユーザーが1つのコメントに対して作成できるリアクションを1つに限定する制約
-    add_index :comment_reactions, [:user_id, :comment_id], unique: true
+    add_index :comment_reactions, [ :user_id, :comment_id ], unique: true
   end
 end
