@@ -1,7 +1,7 @@
 FROM ruby:4.0.5
 
 # 1. 必要なツール（C言語のコンパイルツールやPostgres接続ライブラリなど）をインストール
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libvips
 
 # 2. コンテナ内の作業ディレクトリを `/app` に指定
 WORKDIR /app
