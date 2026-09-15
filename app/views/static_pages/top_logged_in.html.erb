@@ -48,7 +48,7 @@
     </div>
     
     <!-- 最新の質問リスト -->
-    <div class="bg-white/90 rounded-2xl p-3 shadow-sm border border-app-card/60 space-y-2"">
+    <div class="bg-white/90 rounded-2xl p-3 shadow-sm border border-app-card/60 space-y-2">
       <% if @questions.present? %>
         <% @questions.each do |question| %>
           <%= link_to question_path(question), class: "group flex items-center justify-between p-3.5 rounded-xl bg-app-main/30 hover:bg-app-main/60 transition duration-150 no-underline text-left" do %>
