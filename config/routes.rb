@@ -17,7 +17,10 @@ Rails.application.routes.draw do
 
   # テーマ詳細表示用
   resources :themes, only: %i[ index show ] do
-    resources :comments, only: %i[ create destroy ]
+    resources :comments, only: %i[ create destroy ] do
+      # リアクション用ルーティング（1ユーザー1コメントにつき1リアクションの切り替え/解除）
+      resource :comment_reaction, only: %i[ create destroy ]
+    end
   end
 
   # 質問機能用（新規作成・保存・一覧・詳細・回答）
