@@ -1,0 +1,23 @@
+<div class="inline-flex items-center select-none">
+  <svg
+    height="<%= local_assigns[:height] || 40 %>"
+    viewBox="0 0 240 80"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="flex-shrink-0 transition-transform duration-200 hover:scale-[1.02]"
+  >
+    <!-- 大きい丸（親/ココア） -->
+    <circle cx="30" cy="44" r="22" fill="#904719" />
+    <path d="M 18 58 L 12 66 L 24 62 Z" fill="#904719" />
+    
+    <!-- 小さい丸（子/アンティークブルー） -->
+    <circle cx="48" cy="36" r="15" fill="#05435f" />
+    <path d="M 56 46 L 62 54 L 52 49 Z" fill="#05435f" />
+    
+    <!-- 重なりとバターカラーアクセント -->
+    <circle cx="48" cy="36" r="11" fill="#efe4cc" opacity="0.2" />
+    
+    <!-- Nook テキスト -->
+    <text x="74" y="56" fill="<%= local_assigns[:text_color] || '#904719' %>" font-family="'M PLUS Rounded 1c', sans-serif" font-weight="800" font-size="45" letter-spacing="0.5">Nook</text>
+  </svg>
+</div>

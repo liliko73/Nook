@@ -61,7 +61,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   # 本番環境のURLを設定
-  config.action_mailer.default_url_options = { host: "nook-84pk.onrender.com", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "nook-k8ve.onrender.com", protocol: "https" }
 
   # SMTPではなくResend APIを使用する設定に変更
   config.action_mailer.delivery_method = :resend
