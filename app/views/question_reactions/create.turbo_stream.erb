@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "question_#{@question.id}_reaction" do %>
+  <%= render 'question_reactions/button', question: @question %>
+<% end %>
