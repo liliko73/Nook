@@ -1,0 +1,20 @@
+<% user_reaction = question.question_reactions.find_by(user_id: current_user.id) %>
+<% is_my_question = (question.user_id == current_user.id) %>
+<% count = question.question_reactions.size %>
+
+<div id="question_<%= question.id %>_reaction">
+  <%= button_to question_question_reaction_path(question),
+        method: user_reaction ? :delete : :post,
+        class: "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium transition cursor-pointer border #{
+          user_reaction ? 'bg-app-primary/10 border-app-primary text-app-primary font-bold shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+        }" do %>
+    <span>📝</span>
+    <span class="text-[10px]">知りたい！</span>
+
+    <% if is_my_question && count > 0 %>
+      <span class="ml-0.5 text-[10px] font-bold text-app-primary bg-white/80 px-1.5 py-0.2 rounded-full border border-app-primary/30">
+        <%= count %>
+      </span>
+    <% end %>
+  <% end %>
+</div>
