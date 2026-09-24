@@ -1,0 +1,31 @@
+<%# 呼び出し元から answer を渡す %>
+<% user_reaction = answer.answer_reactions.find { |r| r.user_id == current_user.id } %>
+<% is_my_answer = (answer.user_id == current_user.id) %>
+
+<div id="answer_<%= answer.id %>_reactions" class="flex items-center gap-1.5 pt-1">
+  <% [
+    { type: 'like', emoji: '❤️', label: 'いいね！' },
+    { type: 'same', emoji: '🖐️', label: 'うちも！' },
+    { type: 'otsukare', emoji: '☕️', label: 'お疲れ様' }
+  ].each do |btn| %>
+    <% is_active = user_reaction&.reaction_type == btn[:type] %>
+    <%# 投稿者本人の場合のみ該当リアクションの件数をカウント %>
+    <% count = is_my_answer ? answer.answer_reactions.select { |r| r.reaction_type == btn[:type] }.size : 0 %>
+
+    <%= button_to answer_answer_reaction_path(answer, reaction_type: btn[:type]),
+          method: :post,
+          class: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium transition cursor-pointer border #{
+            is_active ? 'bg-app-primary/10 border-app-primary text-app-primary font-bold shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+          }" do %>
+      <span><%= btn[:emoji] %></span>
+      <span class="text-[10px]"><%= btn[:label] %></span>
+
+      <%# 投稿者本人かつリアクション数が1以上の場合はカウントを表示 %>
+      <% if is_my_answer && count > 0 %>
+        <span class="ml-0.5 text-[10px] font-bold text-app-primary bg-white/80 px-1.5 py-0.2 rounded-full border border-app-primary/30">
+          <%= count %>
+        </span>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
