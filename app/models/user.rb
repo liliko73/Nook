@@ -17,6 +17,7 @@ class User < ApplicationRecord
   # リアクションとの関係を設定
   has_many :comment_reactions, dependent: :destroy
   has_many :answer_reactions, dependent: :destroy
+  has_many :question_reactions, dependent: :destroy
 
   # フォームから子供の情報も同時に受け取れるようにする
   accepts_nested_attributes_for :children, allow_destroy: true, reject_if: :all_blank

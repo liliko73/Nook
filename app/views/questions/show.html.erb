@@ -33,6 +33,11 @@
 
     <!-- 本文 -->
     <div class="text-gray-700 text-sm whitespace-pre-wrap break-words leading-relaxed"><%= @question.body %></div>
+
+    <!-- 「知りたい！」リアクション -->
+    <div class="mt-4">
+      <%= render 'question_reactions/button', question: @question %>
+    </div>
   </div>
 
   <!-- 回答投稿フォーム -->
