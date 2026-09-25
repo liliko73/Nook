@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "bookmarks/create"
+  get "bookmarks/destroy"
   get "profiles/show"
   get "profiles/edit"
   get "profiles/update"
@@ -27,6 +29,12 @@ Rails.application.routes.draw do
   resources :questions, only: %i[ index show new create edit update destroy ] do
     # 「知りたい！」リアクション用ルーティング
     resource :question_reaction, only: %i[ create destroy ]
+    # ブックマーク機能用ルーティング
+    resource :bookmark, only: %i[ create destroy ]
+    # ブックマーク一覧ページ
+    collection do
+      get :bookmarks
+    end
     resources :answers, only: %i[ create destroy ], shallow: true do
       resource :answer_reaction, only: %i[ create destroy ]
     end

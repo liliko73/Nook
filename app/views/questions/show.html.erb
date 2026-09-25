@@ -34,9 +34,10 @@
     <!-- 本文 -->
     <div class="text-gray-700 text-sm whitespace-pre-wrap break-words leading-relaxed"><%= @question.body %></div>
 
-    <!-- 「知りたい！」リアクション -->
-    <div class="mt-4">
+    <!-- 「知りたい！」リアクション & ブックマークボタン -->
+    <div class="mt-4 flex items-center space-x-3">
       <%= render 'question_reactions/button', question: @question %>
+      <%= render 'bookmarks/button', question: @question %>
     </div>
   </div>
 

@@ -18,6 +18,9 @@ class User < ApplicationRecord
   has_many :comment_reactions, dependent: :destroy
   has_many :answer_reactions, dependent: :destroy
   has_many :question_reactions, dependent: :destroy
+  # ブックマークとの関係を設定
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmark_questions, through: :bookmarks, source: :question
 
   # フォームから子供の情報も同時に受け取れるようにする
   accepts_nested_attributes_for :children, allow_destroy: true, reject_if: :all_blank
@@ -35,6 +38,19 @@ class User < ApplicationRecord
 
   # ひとこと
   validates :self_introduction, presence: true, length: { maximum: 200 }
+
+  # ブックマーク処理用のメソッド
+  def bookmark(question)
+    bookmark_questions << question
+  end
+
+  def unbookmark(question)
+    bookmark_questions.destroy(question)
+  end
+
+  def bookmark?(question)
+    bookmark_questions.include?(question)
+  end
 
   # 定数定義
   # 都道府県リスト
