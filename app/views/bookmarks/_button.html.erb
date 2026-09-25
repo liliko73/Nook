@@ -1,0 +1,25 @@
+<div id="bookmark_button_<%= question.id %>" class="inline-flex items-center">
+  <%= turbo_frame_tag "bookmark_button_#{question.id}", class: "inline-block" do %>
+    <% is_bookmarked = current_user.bookmark?(question) %>
+
+    <%= button_to question_bookmark_path(question),
+          method: is_bookmarked ? :delete : :post,
+          class: "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[11px] font-medium leading-none transition cursor-pointer border translate-y-[2px] #{
+            is_bookmarked ? 'bg-app-primary/10 border-app-primary text-app-primary font-bold shadow-sm' : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+          }" do %>
+      <% if is_bookmarked %>
+        <%# ブックマーク済みアイコン（塗りつぶし） %>
+        <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 5c0-1.1.9-2 2-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+        </svg>
+      <% else %>
+        <%# 未ブックマークアイコン（線のみ） %>
+        <svg class="w-3.5 h-3.5 fill-none stroke-current shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 5c0-1.1.9-2 2-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+        </svg>
+      <% end %>
+
+      <span class="text-[10px] leading-none">ブックマーク</span>
+    <% end %>
+  <% end %>
+</div>

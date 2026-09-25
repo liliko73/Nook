@@ -37,6 +37,10 @@ class QuestionsController < ApplicationController
     redirect_to questions_path, notice: "質問を削除しました。"
   end
 
+  def bookmarks
+    @bookmark_questions = current_user.bookmark_questions.order(created_at: :desc)
+  end
+
   private
 
   def question_params

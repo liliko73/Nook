@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_18_022742) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_25_025210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_022742) do
     t.bigint "user_id", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["question_id"], name: "index_bookmarks_on_question_id"
+    t.index ["user_id", "question_id"], name: "index_bookmarks_on_user_id_and_question_id", unique: true
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "children", force: :cascade do |t|
@@ -124,6 +134,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_022742) do
   add_foreign_key "answer_reactions", "users"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "bookmarks", "questions"
+  add_foreign_key "bookmarks", "users"
   add_foreign_key "children", "users"
   add_foreign_key "comment_reactions", "comments"
   add_foreign_key "comment_reactions", "users"
