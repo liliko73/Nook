@@ -1,6 +1,7 @@
 class Answer < ApplicationRecord
   belongs_to :user
   belongs_to :question
+  has_many :answer_reactions, dependent: :destroy
 
   # 自己参照の関連付けを追加
   belongs_to :parent, class_name: "Answer", optional: true
