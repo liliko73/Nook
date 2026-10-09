@@ -6,13 +6,18 @@ Rails.application.routes.draw do
   get "profiles/update"
   get "themes/show"
   devise_for :users, controllers: {
-    registrations: "users/registrations"
+    registrations: "users/registrations",
+    passwords: "users/passwords"
   }
 
   # Deviseのregistrationsコントローラーに独自アクションを追加
   devise_scope :user do
     post "users/sign_up/confirm", to: "users/registrations#new_confirm"
     get  "users/sign_up/complete", to: "users/registrations#new_complete", as: :users_sign_up_complete
+
+    # パスワードリセットの完了画面用ルーティング
+    get "users/password/send_completed", to: "users/passwords#send_completed", as: :users_password_send_completed
+    get "users/password/edit_completed", to: "users/passwords#edit_completed", as: :users_password_edit_completed
   end
 
   root "static_pages#top"

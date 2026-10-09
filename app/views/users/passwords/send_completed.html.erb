@@ -1,0 +1,23 @@
+<div class="min-h-screen flex flex-col justify-center items-center py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-6">
+
+    <!-- メール送信完了アイコン -->
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-amber-100 mb-6">
+      <svg class="h-8 w-8 text-amber-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      </svg>
+    </div>
+
+    <h2 class="ext-2xl font-bold text-center mb-4">パスワードのリセット</h2>
+
+    <p class="text-sm text-gray-600 mb-6">
+      入力されたメールアドレスへメールを送信しました。<br>
+      メールの本文に記載されているURLにアクセスしてパスワードをリセットしてください。
+    </p>
+
+    <div>
+      <%= link_to "ログインページへ戻る", new_user_session_path, class: "iw-full py-3 px-4 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl shadow-md transition duration-150 cursor-pointer text-center block no-underline" %>
+    </div>
+    
+  </div>
+</div>
