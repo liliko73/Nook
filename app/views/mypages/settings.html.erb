@@ -1,0 +1,23 @@
+<div class="container mx-auto px-4 py-6 max-w-md space-y-4">
+  <div class="flex items-center mb-2">
+    <%= link_to mypage_path, class: "text-xs text-app-dark/60 flex items-center gap-1" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      <span>マイページに戻る</span>
+    <% end %>
+  </div>
+
+  <h1 class="text-xl font-bold text-center text-app-dark">設定</h1>
+
+  <div class="bg-white rounded-2xl border border-app-card overflow-hidden shadow-sm">
+    <ul class="divide-y divide-gray-100">
+      <li>
+        <%= link_to mypage_mute_setting_path, class: "flex items-center justify-between px-6 py-4 hover:bg-app-main/20 text-app-dark font-medium transition text-sm" do %>
+          <span>ミュート設定</span>
+          <svg class="w-4 h-4 text-app-dark/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

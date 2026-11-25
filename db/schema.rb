@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_25_025210) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_09_140655) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_25_025210) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "mutes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "muted_id", null: false
+    t.bigint "muter_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["muted_id"], name: "index_mutes_on_muted_id"
+    t.index ["muter_id", "muted_id"], name: "index_mutes_on_muter_id_and_muted_id", unique: true
+    t.index ["muter_id"], name: "index_mutes_on_muter_id"
+  end
+
   create_table "question_reactions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "question_id", null: false
@@ -141,6 +151,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_25_025210) do
   add_foreign_key "comment_reactions", "users"
   add_foreign_key "comments", "themes"
   add_foreign_key "comments", "users"
+  add_foreign_key "mutes", "users", column: "muted_id"
+  add_foreign_key "mutes", "users", column: "muter_id"
   add_foreign_key "question_reactions", "questions"
   add_foreign_key "question_reactions", "users"
   add_foreign_key "questions", "users"
