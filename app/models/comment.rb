@@ -12,4 +12,9 @@ class Comment < ApplicationRecord
   has_many :comment_reactions, dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 1000 }
+
+  # ミュートしているユーザーのコンテンツを非表示にするスコープ
+  scope :without_muted_users, ->(user) {
+  where.not(user_id: user.muting_user_ids) if user.present? && user.muting_users.any?
+  }
 end

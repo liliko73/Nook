@@ -45,11 +45,20 @@ Rails.application.routes.draw do
     end
   end
 
-  # マイページトップ
-  resource :mypage, only: %i[ show ]
-
   # マイページ・プロフィール編集用
   resource :profile, only: %i[ show edit update ]
+
+  # ミュートの作成・削除（ユーザー単位）
+  resources :users, only: [] do
+    resource :mute, only: %i[create destroy]
+  end
+
+  # マイページ配下の設定一覧
+  resource :mypage, only: %i[show] do
+    # ミュート設定一覧（設定 > ミュート設定）
+    get :settings
+    resource :mute_setting, only: %i[show]
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

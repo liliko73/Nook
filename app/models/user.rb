@@ -21,6 +21,11 @@ class User < ApplicationRecord
   # ブックマークとの関係を設定
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_questions, through: :bookmarks, source: :question
+  # ミュートとの関係を設定
+  has_many :active_mutes, class_name: "Mute", foreign_key: "muter_id", dependent: :destroy
+  has_many :muting_users, through: :active_mutes, source: :muted
+  has_many :passive_mutes, class_name: "Mute", foreign_key: "muted_id", dependent: :destroy
+  has_many :muted_by_users, through: :passive_mutes, source: :muter
 
   # フォームから子供の情報も同時に受け取れるようにする
   accepts_nested_attributes_for :children, allow_destroy: true, reject_if: :all_blank
@@ -50,6 +55,19 @@ class User < ApplicationRecord
 
   def bookmark?(question)
     bookmark_questions.include?(question)
+  end
+
+  # ミュート用ヘルパーメソッド
+  def mute(other_user)
+    muting_users << other_user unless self == other_user || muting?(other_user)
+  end
+
+  def unmute(other_user)
+    muting_users.delete(other_user)
+  end
+
+  def muting?(other_user)
+    muting_users.include?(other_user)
   end
 
   # 定数定義

@@ -1,0 +1,20 @@
+<% if target_user != current_user %>
+  <details class="relative inline-block text-left">
+    <summary class="list-none cursor-pointer p-1 text-app-dark/40 hover:text-app-dark rounded-full transition select-none flex items-center justify-center">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+      </svg>
+    </summary>
+    <div class="absolute right-0 mt-1 w-max bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1">
+      <%= button_to user_mute_path(target_user),
+            method: :post,
+            onclick: "return confirm('#{target_user.username} さんをミュートしますか？');",
+            class: "w-full text-left px-3 py-1.5 text-xs text-red-600 hover:bg-gray-50 flex items-center gap-1.5 transition border-0 bg-transparent cursor-pointer" do %>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+        <span>ミュートする</span>
+      <% end %>
+    </div>
+  </details>
+<% end %>

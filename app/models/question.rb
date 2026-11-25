@@ -7,4 +7,9 @@ class Question < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 255 }
   validates :body, presence: true, length: { maximum: 65_535 }
+
+  # ミュートしているユーザーのコンテンツを非表示にするスコープ
+  scope :without_muted_users, ->(user) {
+  where.not(user_id: user.muting_user_ids) if user.present? && user.muting_users.any?
+  }
 end

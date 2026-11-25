@@ -6,14 +6,18 @@ class QuestionsController < ApplicationController
       # 「あなたのAsk」: ログイン中のユーザーが投稿した質問のみを取得（新しい順）
       @questions = current_user.questions.order(created_at: :desc)
     else
-      # 「みんなのAsk」: 全ての質問を取得（新しい順）
-      @questions = Question.order(created_at: :desc)
+      # 「みんなのAsk」: 全ての質問を取得（新しい順、ミュート中のユーザーの質問は除外）
+      @questions = Question.without_muted_users(current_user).order(created_at: :desc)
     end
   end
 
   def show
     @question = Question.find(params[:id])
-    @answers = @question.answers.where(parent_id: nil).includes(:user, replies: :user).order(created_at: :desc)
+    @answers = @question.answers
+                        .without_muted_users(current_user)
+                        .where(parent_id: nil)
+                        .includes(:user, replies: :user)
+                        .order(created_at: :desc)
     @answer = @question.answers.build
   end
 
